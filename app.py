@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
+from db import DatabaseHandler
 
 app = Flask(__name__)
-
+db = DatabaseHandler()
 # Root route = Welcome page
 @app.route('/')
 def welcome():
@@ -20,6 +21,8 @@ def signup():
     name = data.get('name')
     password = data.get('password')
     birthday = data.get('birthday')
+
+    db.register_user(name, password, birthday)
 
     # Simulated saving/validation (no database for now)
     print(f"Signup: {name}, {password}, {birthday}")
