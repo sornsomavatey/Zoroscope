@@ -1,0 +1,26 @@
+body {
+  background: linear-gradient(to right, #1e1e2f, #2e2e3f);
+  color: #fff;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+#welcome-card {
+  margin-top: 100px;
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.btn-outline-light {
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-outline-light:hover {
+  background-color: #ffc9e0;
+  color: #000;
+  border-color: #ffc9e0;
+}
