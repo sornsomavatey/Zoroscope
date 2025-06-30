@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from db import DatabaseHandler
+from db import DatabaseHandler, get_zodiac
 
 app = Flask(__name__)
 db = DatabaseHandler()
+z_sign=get_zodiac()
 # Root route = Welcome page
 @app.route('/')
 def welcome():
@@ -24,11 +25,28 @@ def signup():
 
     db.register_user(name, password, birthday)
 
-    # Simulated saving/validation (no database for now)
-    print(f"Signup: {name}, {password}, {birthday}")
 
-    # Redirect back to welcome page with name
-    return jsonify({'message': f'Welcome, {name}!', 'redirect': url_for('welcome', name=name)})
+    # Extract month and day
+    parts = birthday.split('-')
+    month = int(parts[1])
+    day = int(parts[2])
+
+    zodiac_sign = z_sign.get_zodiac_sign(month, day)
+
+    print(f"Signup: {name}, {password}, {birthday}, Zodiac: {zodiac_sign}")
+
+    return jsonify({
+        'message': f'Signed up successfully! Welcome, {name}!',
+        'redirect': url_for('show_zodiac', name=name, zodiac=zodiac_sign)})
+
+
+
+
+
+
+
+
+
 
 if __name__ == '__main__':
     from os import environ

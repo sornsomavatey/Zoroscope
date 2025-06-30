@@ -30,7 +30,8 @@ class DatabaseHandler:
             "year": year
         })  
     
-    
+class get_zodiac:
+
     def get_zodiac_sign(self, date, month):
         if (month == 1 and date >= 20) or (month == 2 and date <= 18):
             return "Aquarius"
