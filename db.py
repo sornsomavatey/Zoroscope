@@ -15,7 +15,7 @@ class DatabaseHandler:
 
     def authenticate_user(self, username, password):
         hashed_password = self.hash_password(password)
-        user = self.users.find_one({"username": username, "password": hashed_password})
+        user = self.users.find_one({"name": username, "password": hashed_password})
         return user is not None
 
     def register_user(self, username, password, birthday):
@@ -29,34 +29,40 @@ class DatabaseHandler:
             "month": month,
             "year": year
         })  
-    
-class get_zodiac:
+        
+    def get_user_by_name(self, username):
+        user = self.users.find_one({"name": username})
+        if user:
+            # Return relevant fields
+            return {
+                "name": user.get("name"),
+                "year": user.get("year"),
+                "month": user.get("month"),
+                "date": user.get("date")
+            }
+        return None
 
-    def get_zodiac_sign(self, date, month):
-        if (month == 1 and date >= 20) or (month == 2 and date <= 18):
-            return "Aquarius"
-        elif (month == 2 and date >= 19) or (month == 3 and date <= 20):
-            return "Pisces"
-        elif (month == 3 and date >= 21) or (month == 4 and date <= 19):
-            return "Aries"
-        elif (month == 4 and date >= 20) or (month == 5 and date <= 20):
-            return "Taurus"
-        elif (month == 5 and date >= 21) or (month == 6 and date <= 20):
-            return "Gemini"
-        elif (month == 6 and date >= 21) or (month == 7 and date <= 22):
-            return "Cancer"
-        elif (month == 7 and date >= 23) or (month == 8 and date <= 22):
-            return "Leo"
-        elif (month == 8 and date >= 23) or (month == 9 and date <= 22):
-            return "Virgo"
-        elif (month == 9 and date >= 23) or (month == 10 and date <= 22):
-            return "Libra"
-        elif (month == 10 and date >= 23) or (month == 11 and date <= 21):
-            return "Scorpio"
-        elif (month == 11 and date >= 22) or (month == 12 and date <= 21):
-            return "Sagittarius"
-        else:
-            return "Capricorn"
+def get_zodiac_sign(month, day):
+    zodiac_signs = [
+        ("Capricorn",  (1,  19), "♑️"),
+        ("Aquarius",   (2,  18), "♒️"),
+        ("Pisces",     (3,  20), "♓️"),
+        ("Aries",      (4,  19), "♈️"),
+        ("Taurus",     (5,  20), "♉️"),
+        ("Gemini",     (6,  20), "♊️"),
+        ("Cancer",     (7,  22), "♋️"),
+        ("Leo",        (8,  22), "♌️"),
+        ("Virgo",      (9,  22), "♍️"),
+        ("Libra",     (10,  22), "♎️"),
+        ("Scorpio",   (11,  21), "♏️"),
+        ("Sagittarius",(12, 21), "♐️"),
+        ("Capricorn", (12, 31), "♑️")
+    ]
+
+    for sign, (m, d), icon in zodiac_signs:
+        if (month < m) or (month == m and day <= d):
+            return sign, icon
+    return "Capricorn", "♑️"
 
 
 

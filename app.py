@@ -1,10 +1,12 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from db import DatabaseHandler, get_zodiac
+from datetime import datetime
+from db import DatabaseHandler
+from db import get_zodiac_sign
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = DatabaseHandler()
-z_sign=get_zodiac()
+
 # Root route = Welcome page
 @app.route('/')
 def welcome():
@@ -26,32 +28,49 @@ def signup():
 
     db.register_user(name, password, birthday)
 
+    print(f"Signup: {name}, {password}, {birthday}")
 
-    # Extract month and day
-    parts = birthday.split('-')
-    month = int(parts[1])
-    day = int(parts[2])
+    return jsonify({'message': f'Sign up successfully! Welcome, {name}!',
+                    'redirect': url_for('welcome', name=name)})
 
-    zodiac_sign = z_sign.get_zodiac_sign(month, day)
-
-    print(f"Signup: {name}, {password}, {birthday}, Zodiac: {zodiac_sign}")
-
-    return jsonify({
-        'message': f'Signed up successfully! Welcome, {name}!',
-        'redirect': url_for('show_zodiac', name=name, zodiac=zodiac_sign)})
-
-
-
-
-
-
-
-
-
-
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login_page():
-    return render_template("login.html")  # or whatever your login template is
+    if request.method == "POST":
+        data = request.get_json()
+
+        if not data:
+            return jsonify({'message': 'No data received'}), 400
+        
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return jsonify({'message': 'Username and password required'}), 400
+
+        if db.authenticate_user(username, password):
+            return jsonify({
+                'message': f'Welcome back, {username}!',
+                'redirect': url_for('greeting', username=username)
+            }), 200
+        else:
+            return jsonify({'message': 'Invalid username or password'}), 401
+
+    return render_template('login.html')
+
+@app.route('/greeting/<username>')
+def greeting(username):
+    user = db.get_user_by_name(username)
+    if not user:
+        return redirect(url_for('login_page'))
+
+    # Use year, month, date from user dict to create datetime
+    birthday = datetime(user['year'], user['month'], user['date'])
+    sign, icon = get_zodiac_sign(birthday.month, birthday.day)
+
+
+    quote = "Believe in yourself and the stars will align ✨"
+
+    return render_template("greeting.html", username=username, zodiac=sign, zodiac_icon=icon, quote=quote)
 
 
 if __name__ == '__main__':
