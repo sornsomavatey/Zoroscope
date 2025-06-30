@@ -1,0 +1,47 @@
+body {
+  background: linear-gradient(to right, #8b5c9c, #2e2e3f);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+  text-align: center;
+  padding-top: 100px;
+}
+
+.greeting-container {
+  background-color: rgba(112, 0, 172, 0.05);
+  border: 3px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  max-width: 600px;
+  margin: auto;
+}
+
+.zodiac-name {
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #ffc9e0;
+}
+
+.quote {
+  font-style: italic;
+  margin: 20px 0;
+}
+
+.explore-btn {
+  display: inline-block;
+  padding: 12px 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  background: linear-gradient(135deg, #ffc9e0, #ff8ab4);
+  color: #000;
+  border: none;
+  border-radius: 30px;
+  text-decoration: none;
+  margin-top: 20px;
+  transition: 0.3s ease;
+}
+
+.explore-btn:hover {
+  background: #fff;
+  color: #8b5c9c;
+}
