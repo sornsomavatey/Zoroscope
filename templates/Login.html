@@ -31,23 +31,23 @@
       </form>
     </div>
   </div>
-
   <script>
     document.getElementById("login-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const name = document.getElementById("name").value;
+      const username = document.getElementById("name").value;
       const password = document.getElementById("password").value;
 
       const response = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password })
+        body: JSON.stringify({ username, password })  // ✅ now `username` has a value
       });
+
 
       const result = await response.json();
       alert(result.message);
       if (response.ok) {
-        window.location.href = "/dashboard"; // Redirect if login is successful
+        window.location.href = `/greeting/${username}`;
       }
     });
   </script>
