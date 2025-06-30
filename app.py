@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from db import DatabaseHandler
+from datetime import datetime
+from db import DatabaseHandler, get_zodiac_sign
 
 app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
@@ -31,10 +33,44 @@ def signup():
     # Redirect back to welcome page with name
     return jsonify({'message': f'Welcome, {name}!', 'redirect': url_for('welcome', name=name)})
 
-@app.route("/login")
+@app.route("/login", methods=["GET", "POST"])
 def login_page():
-    return render_template("login.html")  # or whatever your login template is
+    if request.method == "POST":
+        data = request.get_json()
 
+        if not data:
+            return jsonify({'message': 'No data received'}), 400
+        
+        username = data.get('username')
+        password = data.get('password')
+
+        if not username or not password:
+            return jsonify({'message': 'Username and password required'}), 400
+
+        if db.authenticate_user(username, password):
+            return jsonify({
+                'message': f'Welcome back, {username}!',
+                'redirect': url_for('greeting', username=username)
+            }), 200
+        else:
+            return jsonify({'message': 'Invalid username or password'}), 401
+
+    return render_template('login.html')
+
+@app.route('/greeting/<username>')
+def greeting(username):
+    user = db.get_user_by_name(username)
+    if not user:
+        return redirect(url_for('login_page'))
+
+    # Use year, month, date from user dict to create datetime
+    birthday = datetime(user['year'], user['month'], user['date'])
+    sign, icon = get_zodiac_sign(birthday.month, birthday.day)
+
+
+    quote = "Believe in yourself and the stars will align ✨"
+
+    return render_template("greeting.html", username=username, zodiac=sign, zodiac_icon=icon, quote=quote)
 
 if __name__ == '__main__':
     from os import environ
