@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome, {{ username }}!</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='greeting.css') }}">
+</head>
+<body>
+  <div class="greeting-container">
+    <h1>Hi, {{ username }}! {{ zodiac_icon }}</h1>
+    <h2>Your Zodiac Sign: <span class="zodiac-name">{{ zodiac }}</span></h2>
+    <p class="quote">"{{ quote }}"</p>
+  </div>
+</body>
+</html>
