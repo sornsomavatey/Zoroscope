@@ -52,6 +52,9 @@
 
       const result = await response.json();
       alert(result.message);
+      if (response.ok) {
+        window.location.href = `/login`;
+      }
     });
   </script>
 </body>

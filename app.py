@@ -31,7 +31,7 @@ def signup():
     print(f"Signup: {name}, {password}, {birthday}")
 
     return jsonify({'message': f'Sign up successfully! Welcome, {name}!',
-                    'redirect': url_for('welcome', name=name)})
+                    'redirect': url_for('login_page', name=name)})
 
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
@@ -76,3 +76,4 @@ def greeting(username):
 if __name__ == '__main__':
     from os import environ
     app.run(host='0.0.0.0', port=int(environ.get('PORT', 5000)), debug=True)
+
