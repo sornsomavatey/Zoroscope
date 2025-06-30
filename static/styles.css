@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(135deg, #070b34, #1e2b5f);
+  background: linear-gradient(to right, #8b5c9c, #2e2e3f);
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
@@ -14,7 +14,7 @@ body {
 }
 
 #form-card {
-  background-color: #16004B;
+  background-color: #16004b52;
   border-radius: 16px;
   padding: 2rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
