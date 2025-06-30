@@ -1,25 +1,49 @@
 body {
-  background: linear-gradient(to right, #1e1e2f, #2e2e3f);
-  color: #fff;
+  background: linear-gradient(to right, #8b5c9c, #2e2e3f);
   font-family: 'Segoe UI', sans-serif;
+  color: #fff;
   margin: 0;
   padding: 0;
+  text-align: center;
 }
 
-#welcome-card {
-  margin-top: 100px;
-  background-color: rgba(255, 255, 255, 0.05);
+.welcome-container {
+  max-width: 600px;
+  margin: 150px auto 0;
   padding: 30px;
+  background-color: rgba(112, 0, 172, 0.05);
   border-radius: 15px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 3px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-.btn-outline-light {
-  transition: all 0.3s ease-in-out;
+h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
 }
 
-.btn-outline-light:hover {
+.lead {
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+}
+
+.custom-btn {
+  display: inline-block;
+  width: 180px;
+  padding: 12px 0;
+  margin: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background-color: transparent;
+  border: 2px solid #fff;
+  border-radius: 30px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
   background-color: #ffc9e0;
   color: #000;
   border-color: #ffc9e0;

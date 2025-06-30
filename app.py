@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, jsonify, redirect, url_for
 from db import DatabaseHandler
 
 app = Flask(__name__)
+app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = DatabaseHandler()
 # Root route = Welcome page
 @app.route('/')
@@ -30,6 +31,11 @@ def signup():
     # Redirect back to welcome page with name
     return jsonify({'message': f'Welcome, {name}!', 'redirect': url_for('welcome', name=name)})
 
+@app.route("/login")
+def login_page():
+    return render_template("login.html")  # or whatever your login template is
+
+
 if __name__ == '__main__':
     from os import environ
-    app.run(host='0.0.0.0', port=int(environ.get('PORT', 5000)))
+    app.run(host='0.0.0.0', port=int(environ.get('PORT', 5000)), debug=True)
