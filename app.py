@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from db import DatabaseHandler
 from datetime import datetime
+import requests
+from bs4 import BeautifulSoup
 from db import DatabaseHandler, get_zodiac_sign
 
 app = Flask(__name__)
@@ -57,20 +59,59 @@ def login_page():
 
     return render_template('login.html')
 
+def get_user_zodiac(username):
+    """
+    Load user data and return (sign_name, sign_icon)
+    """
+    user = db.get_user_by_name(username)
+    
+    if not user:
+        return None, None  # or raise an error
+    
+    birthday = datetime(user['year'], user['month'], user['date'])
+    sign, icon = get_zodiac_sign(birthday.month, birthday.day)
+    return sign, icon
+
+
 @app.route('/greeting/<username>')
 def greeting(username):
     user = db.get_user_by_name(username)
     if not user:
         return redirect(url_for('login_page'))
 
-    # Use year, month, date from user dict to create datetime
-    birthday = datetime(user['year'], user['month'], user['date'])
-    sign, icon = get_zodiac_sign(birthday.month, birthday.day)
-
-
+    sign, icon = get_user_zodiac(username)
     quote = "Believe in yourself and the stars will align ✨"
 
-    return render_template("greeting.html", username=username, zodiac=sign, zodiac_icon=icon, quote=quote)
+    return render_template(
+        "greeting.html",
+        username=username,
+        zodiac=sign,
+        zodiac_icon=icon,
+        quote=quote
+    )
+
+# def horoscope(username, day="today"):
+#     sign, icon = get_user_zodiac(username)
+#     if not sign:
+#         return "User not found."
+
+#     # Map sign names to numbers (Horoscope.com expects numbers)
+#     dic = {
+#         'Aries': 1, 'Taurus': 2, 'Gemini': 3,
+#         'Cancer': 4, 'Leo': 5, 'Virgo': 6,
+#         'Libra': 7, 'Scorpio': 8, 'Sagittarius': 9,
+#         'Capricorn': 10, 'Aquarius': 11, 'Pisces': 12
+#     }
+#     zodiac_number = dic[sign]
+
+#     url = (
+#         "https://www.horoscope.com/us/horoscopes/general/"
+#         f"horoscope-general-daily-{day}.aspx?sign={zodiac_number}"
+#     )
+
+#     soup = BeautifulSoup(requests.get(url).content, "html.parser")
+#     return soup.find("div", class_="main-horoscope").p.text
+
 
 if __name__ == '__main__':
     from os import environ
