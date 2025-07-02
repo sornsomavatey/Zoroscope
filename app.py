@@ -93,6 +93,17 @@ def greeting(username):
 def explore_page():
     return render_template('card.html')
 
+@app.route("/daily-horoscope", methods=["GET"])
+def daily_horoscope():
+
+    return render_template("daily-horoscope.html", 
+        selected_sign='Leo',
+        today='July 2, 2025',
+        horoscope_text='Your daily horoscope will appear here...',
+        zodiacs=[
+            "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+            "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"])
+
 # def horoscope(username, day="today"):
 #     sign, icon = get_user_zodiac(username)
 #     if not sign:

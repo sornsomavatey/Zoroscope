@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Daily Horoscope</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='daily.css') }}">
+</head>
+<body>
+  <div class="horoscope-container">
+    <h1 class="horoscope-title">✨ Your Daily Horoscope ✨</h1>
+    <p class="horoscope-subtitle">Choose your sign to reveal the stars' message...</p>
+
+    <form class="horoscope-form">
+      <label for="sign">Choose your sign:</label>
+      <select name="sign" id="sign">
+        <option>Aries</option>
+        <option>Taurus</option>
+        <option>Gemini</option>
+        <option>Cancer</option>
+        <option selected>Leo</option>
+        <option>Virgo</option>
+        <option>Libra</option>
+        <option>Scorpio</option>
+        <option>Sagittarius</option>
+        <option>Capricorn</option>
+        <option>Aquarius</option>
+        <option>Pisces</option>
+      </select>
+      <button type="button">Show Horoscope</button>
+    </form>
+
+    <div class="horoscope-box">
+      <h2>Leo - July 2, 2025</h2>
+      <p class="placeholder">Your daily horoscope will appear here...</p>
+    </div>
+
+    <a href="/explore" class="back-btn">🔙 Back to Explore</a>
+  </div>
+</body>
+</html>

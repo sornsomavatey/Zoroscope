@@ -1,0 +1,78 @@
+body {
+  background: linear-gradient(to right, #2b164f, #150c2e);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.horoscope-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.horoscope-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.horoscope-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.horoscope-form {
+  margin-bottom: 30px;
+}
+
+.horoscope-form select,
+.horoscope-form button {
+  padding: 10px 15px;
+  margin: 5px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #ffc9e0, #ff8ab4);
+  color: #000;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.horoscope-form button:hover {
+  background: #fff;
+  color: #8b5c9c;
+}
+
+.horoscope-box {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+  text-align: left;
+  margin-top: 20px;
+}
+
+.horoscope-box h2 {
+  color: #ffc9e0;
+  margin-bottom: 15px;
+}
+
+.horoscope-box .placeholder {
+  color: #aaa;
+  font-style: italic;
+}
+
+.back-btn {
+  display: inline-block;
+  margin-top: 30px;
+  text-decoration: none;
+  color: #ffc9e0;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-btn:hover {
+  color: #fff;
+}

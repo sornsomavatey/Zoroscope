@@ -1,29 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Explore</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='explore.css') }}">
+    <meta charset="UTF-8">
+    <title>Explore</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='explore.css') }}">
 </head>
 <body>
-  <div class="explore-container">
-    <h1 class="explore-title">🔮 Explore Your Stars 🔮</h1>
-    <p class="explore-subtitle">Choose your path to reveal your zodiac secrets...</p>
+    <div class="explore-container">
+        <h1 class="explore-title">🔮 Explore Your Stars 🔮</h1>
+        <p class="explore-subtitle">Choose your path to reveal your zodiac secrets...</p>
 
-    <div class="card-container">
-      <div class="card">
-        <img src="{{ url_for('static', filename='images/lucky color.jpeg') }}" alt="Color Suggestion">
-        <a href="/color" class="btn">Color Suggestion</a>
-      </div>
-      <div class="card">
-        <img src="{{ url_for('static', filename='images/personality.jpeg') }}" alt="Personality Matcher">
-        <a href="/personality" class="btn">Personality Matcher</a>
-      </div>
-      <div class="card">
-        <img src="{{ url_for('static', filename='images/birthday countdown.jpeg') }}" alt="Birthday Countdown">
-        <a href="/birthday" class="btn">Birthday Countdown</a>
-      </div>
-    </div>
+        <div class="card-container">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/Ethereal Spiral Galaxy.jpeg') }}" alt="Daily Horoscope">
+                <a href="/daily-horoscope" class="btn">Read Today's Horoscope</a>
+            </div>
+            
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/lucky color.jpeg') }}" alt="Color Suggestion">
+                <a href="/color" class="btn">Color Suggestion</a>
+            </div>
+
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/personality.jpeg') }}" alt="Personality Matcher">
+                <a href="/personality" class="btn">Personality Matcher</a>
+            </div>
+
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/birthday countdown.jpeg') }}" alt="Birthday Countdown">
+                <a href="/birthday" class="btn">Birthday Countdown</a>
+            </div>
+
+        </div>
   </div>
 </body>
 </html>

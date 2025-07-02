@@ -33,6 +33,7 @@ label {
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"],
 input[type="date"] {
   padding: 0.5rem 0.75rem;
