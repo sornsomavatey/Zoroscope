@@ -55,7 +55,7 @@ def login_page():
                 'redirect': url_for('greeting', username=username)
             }), 200
         else:
-            return jsonify({'message': 'Invalid username or password'}), 401
+            return jsonify({'message': ' Invalid username or password'}), 401
 
     return render_template('login.html')
 
@@ -89,6 +89,9 @@ def greeting(username):
         zodiac_icon=icon,
         quote=quote
     )
+@app.route('/explore')
+def explore_page():
+    return render_template('card.html')
 
 # def horoscope(username, day="today"):
 #     sign, icon = get_user_zodiac(username)

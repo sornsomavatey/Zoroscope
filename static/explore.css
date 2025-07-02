@@ -1,0 +1,65 @@
+body {
+  background: linear-gradient(to right, #2b164f, #150c2e);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.explore-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.explore-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 40px;
+}
+
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+  height: 350px;
+  padding: 20px;
+  max-width: 250px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+}
+
+.card img {
+  width: 100%;
+  height: 280px; /* fix the height */
+  object-fit: cover; 
+  border-radius: 15px;
+  margin-bottom: 15px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #ffc9e0, #ff8ab4);
+  color: #000;
+  font-weight: bold;
+  border-radius: 30px;
+  text-decoration: none;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #8b5c9c;
+}

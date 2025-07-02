@@ -27,21 +27,21 @@ body {
   margin: 20px 0;
 }
 
-.explore-btn {
+.Explore-btn {
   display: inline-block;
   padding: 12px 30px;
   font-size: 1rem;
   font-weight: bold;
   background: linear-gradient(135deg, #ffc9e0, #ff8ab4);
   color: #000;
-  border: none;
+  border: 2px solid white;
   border-radius: 30px;
   text-decoration: none;
   margin-top: 20px;
   transition: 0.3s ease;
 }
 
-.explore-btn:hover {
+.Explore-btn:hover {
   background: #fff;
   color: #8b5c9c;
 }
