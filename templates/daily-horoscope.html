@@ -28,8 +28,7 @@
         <p class="placeholder">Your daily horoscope will appear here...</p>
       {% endif %}
   </div>  
-
-    <a href="/explore" class="back-btn">🔙 Back to Explore</a>
+    <a href="{{ url_for('explore_page', username=username) }}" class="back-btn">🔙 Back to Explore</a>
   </div>
 </body>
 </html>
