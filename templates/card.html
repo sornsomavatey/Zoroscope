@@ -13,7 +13,13 @@
         <div class="card-container">
             <div class="card">
                 <img src="{{ url_for('static', filename='images/Ethereal Spiral Galaxy.jpeg') }}" alt="Daily Horoscope">
-                <a href="/daily-horoscope" class="btn">Read Today's Horoscope</a>
+                
+                {% if username %}
+                    <a href="{{ url_for('daily_horoscope', username=username) }}"class="btn">Read Today's Horoscope</a>
+                {% else %}
+                    <a href="/login">Login to See Your Horoscope</a>
+                {% endif %}
+                
             </div>
             
             <div class="card">

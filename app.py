@@ -1,7 +1,8 @@
-from flask import Flask, render_template, request, jsonify, redirect, url_for
+from flask import Flask, render_template, request, jsonify, redirect, url_for, session
 from db import DatabaseHandler
 from datetime import datetime
 import requests
+import re
 from bs4 import BeautifulSoup
 from db import DatabaseHandler, get_zodiac_sign
 
@@ -24,16 +25,23 @@ def signup_page():
 def signup():
     data = request.get_json()
     name = data.get('name')
+    email = data.get('email')
     password = data.get('password')
     birthday = data.get('birthday')
 
-    db.register_user(name, password, birthday)
+    # Check if email already exists
+    existing_user = db.get_user_by_email(email)
+    if existing_user:
+        return jsonify({'message': 'Email already exists.'}), 400
 
-    # Simulated saving/validation (no database for now)
-    print(f"Signup: {name}, {password}, {birthday}")
+    # Register new user
+    db.register_user(name, email, password, birthday)
 
-    # Redirect back to welcome page with name
-    return jsonify({'message': f'Welcome, {name}!', 'redirect': url_for('welcome', name=name)})
+    return jsonify({
+        'message': f'Welcome, {name}!',
+        'redirect': url_for('welcome', name=name)
+    })
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login_page():
@@ -43,17 +51,21 @@ def login_page():
         if not data:
             return jsonify({'message': 'No data received'}), 400
         
-        username = data.get('username')
+        email = data.get('email')
         password = data.get('password')
 
-        if not username or not password:
+        if not email or not password:
             return jsonify({'message': 'Username and password required'}), 400
 
-        if db.authenticate_user(username, password):
+        if db.authenticate_user(email, password):
+            user = db.get_user_by_email(email)
+            
             return jsonify({
-                'message': f'Welcome back, {username}!',
-                'redirect': url_for('greeting', username=username)
-            }), 200
+                'message': f'Welcome back, {user["name"]}!',
+                'username': user["name"],
+                'redirect': url_for('greeting', username=user["name"])
+            })
+            200
         else:
             return jsonify({'message': ' Invalid username or password'}), 401
 
@@ -75,6 +87,7 @@ def get_user_zodiac(username):
 
 @app.route('/greeting/<username>')
 def greeting(username):
+    
     user = db.get_user_by_name(username)
     if not user:
         return redirect(url_for('login_page'))
@@ -89,42 +102,83 @@ def greeting(username):
         zodiac_icon=icon,
         quote=quote
     )
-@app.route('/explore')
-def explore_page():
-    return render_template('card.html')
 
-@app.route("/daily-horoscope", methods=["GET"])
-def daily_horoscope():
 
-    return render_template("daily-horoscope.html", 
-        selected_sign='Leo',
-        today='July 2, 2025',
-        horoscope_text='Your daily horoscope will appear here...',
-        zodiacs=[
-            "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
-            "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"])
+@app.route('/explore/<username>')
+def explore_page(username):
+    return render_template('card.html', username=username)
 
-# def horoscope(username, day="today"):
-#     sign, icon = get_user_zodiac(username)
-#     if not sign:
-#         return "User not found."
+@app.route('/daily-horoscope/<username>', methods=["GET", "POST"])
+def daily_horoscope(username):
 
-#     # Map sign names to numbers (Horoscope.com expects numbers)
-#     dic = {
-#         'Aries': 1, 'Taurus': 2, 'Gemini': 3,
-#         'Cancer': 4, 'Leo': 5, 'Virgo': 6,
-#         'Libra': 7, 'Scorpio': 8, 'Sagittarius': 9,
-#         'Capricorn': 10, 'Aquarius': 11, 'Pisces': 12
-#     }
-#     zodiac_number = dic[sign]
+    Zodiac_option = [
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ]
 
-#     url = (
-#         "https://www.horoscope.com/us/horoscopes/general/"
-#         f"horoscope-general-daily-{day}.aspx?sign={zodiac_number}"
-#     )
+    dic = {
+        'Aries': 1, 'Taurus': 2, 'Gemini': 3,
+        'Cancer': 4, 'Leo': 5, 'Virgo': 6,
+        'Libra': 7, 'Scorpio': 8, 'Sagittarius': 9,
+        'Capricorn': 10, 'Aquarius': 11, 'Pisces': 12
+    }
 
-#     soup = BeautifulSoup(requests.get(url).content, "html.parser")
-#     return soup.find("div", class_="main-horoscope").p.text
+    if request.method == "POST":
+        # User selected a sign manually
+        sign = request.form['sign']
+
+    elif request.method == "GET":
+        # GET request, load user and get their zodiac sign
+        user = db.get_user_by_name(username)
+        if not user:
+            return f"User '{username}' not found.", 404
+
+        sign_name, _ = get_zodiac_sign(user['month'], user['date'])  # unpack tuple
+        sign = sign_name    
+
+    zodiac_number = dic.get(sign)
+
+    if zodiac_number is None:
+        horoscope_text = "Invalid zodiac sign selected."
+        today_date = datetime.now().strftime("%B %d, %Y")
+        return render_template(
+            "daily-horoscope.html",
+            selected_sign=sign,
+            today=today_date,
+            horoscope_text=horoscope_text,
+            zodiacs=Zodiac_option,
+            username=username
+        )
+    
+    else: 
+        # Fetch horoscope after we know the sign
+        url = (
+            "https://www.horoscope.com/us/horoscopes/general/"
+            f"horoscope-general-daily-today.aspx?sign={zodiac_number}"
+        )
+        response = requests.get(url)
+        soup = BeautifulSoup(response.content, "html.parser")
+        main_div = soup.find("div", class_="main-horoscope")
+
+        if main_div and main_div.p:
+            raw_text = main_div.p.text.strip()
+            if " - " in raw_text:
+                horoscope_text = raw_text.split(" - ", 1)[1].strip() 
+            else:
+                horoscope_text = raw_text
+        else:
+            horoscope_text = "Horoscope information currently unavailable."
+
+        today_date = datetime.now().strftime("%B %d, %Y")
+
+        return render_template(
+            "daily-horoscope.html",
+            selected_sign=sign,
+            today=today_date,
+            horoscope_text=horoscope_text,
+            zodiacs=Zodiac_option,
+            username=username
+        )
 
 
 if __name__ == '__main__':

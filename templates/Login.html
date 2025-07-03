@@ -15,14 +15,14 @@
         <h2>🔓 Login to Your ZoroScope</h2>
       </div>
       <form id="login-form">
-        <div class="form-row">
+        <!-- <div class="form-row">
           <label for="name">Name:</label>
           <input type="text" id="name" placeholder="Enter your name" required />
-        </div>
-        <!--<div class="form-row">
+        </div> -->
+        <div class="form-row">
           <label for="email">Email:</label>
           <input type="email" id="email" placeholder="Enter your email" required />
-        </div>-->
+        </div>
         <div class="form-row">
           <label for="password">Password:</label>
           <input type="password" id="password" placeholder="Enter your password" required />
@@ -37,21 +37,21 @@
   <script>
     document.getElementById("login-form").addEventListener("submit", async function (e) {
       e.preventDefault();
-      const username = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
 
       const response = await fetch("/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })  // ✅ now `username` has a value
+        body: JSON.stringify({ email, password })
       });
 
-
       const result = await response.json();
-      alert(result.message);
+      alert( result.message);
       if (response.ok) {
-        window.location.href = `/greeting/${username}`;
+        window.location.href = `/greeting/${result.username}`;
       }
+
     });
   </script>
 </body>

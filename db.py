@@ -13,17 +13,21 @@ class DatabaseHandler:
         # Simple hash for demonstration (you may use bcrypt for more security)
         return hashlib.sha256(password.encode()).hexdigest()
 
-    def authenticate_user(self, username, password):
+    def authenticate_user(self, email, password):
         hashed_password = self.hash_password(password)
-        user = self.users.find_one({"name": username, "password": hashed_password})
+        user = self.users.find_one({
+            "email": email,
+            "password": hashed_password })
         return user is not None
 
-    def register_user(self, username, password, birthday):
+
+    def register_user(self, username,email, password, birthday):
         
         hashed_password = self.hash_password(password)
         year, month, date = map(int, birthday.split('-'))  # 'YYYY-MM-DD'
         self.users.insert_one({
             "name": username,
+            "email": email,
             "password": hashed_password,
             "date": date,
             "month": month,
@@ -36,6 +40,18 @@ class DatabaseHandler:
             # Return relevant fields
             return {
                 "name": user.get("name"),
+                "year": user.get("year"),
+                "month": user.get("month"),
+                "date": user.get("date")
+            }
+        return None
+    
+    def get_user_by_email(self, email):
+        user = self.users.find_one({"email": email})
+        if user:
+            return {
+                "name": user.get("name"),
+                "email": user.get("email"),
                 "year": user.get("year"),
                 "month": user.get("month"),
                 "date": user.get("date")

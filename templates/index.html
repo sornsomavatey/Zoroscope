@@ -45,14 +45,16 @@
   <script>
     document.getElementById("signup-form").addEventListener("submit", async function (e) {
       e.preventDefault();
+
       const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
       const password = document.getElementById("password").value;
       const birthday = document.getElementById("birthday").value;
 
       const response = await fetch("/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password, birthday })
+        body: JSON.stringify({ name, email, password, birthday })
       });
 
       const result = await response.json();
