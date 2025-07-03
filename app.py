@@ -13,7 +13,7 @@ db = DatabaseHandler()
 @app.route('/')
 def welcome():
     name = request.args.get('name', 'Guest')
-    return render_template('Welcome-page.html', name=name)
+    return render_template('welcome_page.html', name=name)
 
 # Sign-up page
 @app.route('/signup-page')
