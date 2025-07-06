@@ -19,8 +19,7 @@ class DatabaseHandler:
             "email": email,
             "password": hashed_password })
         return user is not None
-
-
+    
     def register_user(self, username,email, password, birthday):
         
         hashed_password = self.hash_password(password)

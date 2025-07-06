@@ -3,6 +3,7 @@ from db import DatabaseHandler, get_zodiac_sign
 from bs4 import BeautifulSoup
 from datetime import datetime
 import pandas as pd
+import re
 import requests
 import joblib
 
