@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Zodiac Compatibility</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='predict.css') }}">
+</head>
+<body>
+    <div class="compatibility-container">
+        <h1 class="compatibility-title">💖 Zodiac Compatibility 💖</h1>
+
+        <form id="compatibility-form">
+        <div class="zodiac-row">
+            <div class="zodiac-sign">
+            <label>Your Sign</label>
+            <select name="sign1" id="sign1" required>
+                {% for sign in zodiacs %}
+                <option value="{{ sign }}" {% if sign == user_sign %}selected{% endif %}>{{ sign }}</option>
+                {% endfor %}
+            </select>
+            </div>
+
+            <div class="zodiac-sign">
+            <label>Check with</label>
+            <select name="sign2" id="sign2" required>
+                {% for sign in zodiacs %}
+                <option value="{{ sign }}">{{ sign }}</option>
+                {% endfor %}
+            </select>
+            </div>
+        </div>
+
+        <button type="submit">Check Compatibility</button>
+        </form>
+
+        <div class="result-box" id="result" style="display: none;">
+        <div class="signs-row">
+            <div class="sign-name" id="sign1-name"></div>
+            <div class="compatibility-score" id="compatibility-score"></div>
+            <div class="sign-name" id="sign2-name"></div>
+        </div>
+
+        <div class="descriptions">
+            <div class="description-column">
+            <h3>💬 Friendship</h3>
+            <p id="friend-description"></p>
+            </div>
+            <div class="description-column">
+            <h3>❤️ Relationship</h3>
+            <p id="couple-description"></p>
+            </div>
+        </div>
+        </div>
+
+        <a href="{{ url_for('explore_page', username=username) }}" class="back-btn">🔙 Back to Explore</a>
+    </div>
+
+    <script>
+        const form = document.getElementById("compatibility-form");
+        const resultBox = document.getElementById("result");
+
+        form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const sign1 = document.getElementById("sign1").value;
+        const sign2 = document.getElementById("sign2").value;
+
+        const response = await fetch("/predict", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ sign1, sign2 }),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        // Fill results
+        document.getElementById("sign1-name").textContent = data.sign1;
+        document.getElementById("sign2-name").textContent = data.sign2;
+        document.getElementById("compatibility-score").textContent = `${data.compatibility_score}%`;
+        document.getElementById("friend-description").textContent = data.descriptions.Friends;
+        document.getElementById("couple-description").textContent = data.descriptions.Couple;
+        resultBox.style.display = "block";
+        });
+    </script>
+</body>
+</html>
