@@ -1,74 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Welcome - ZoroScope</title>
+  <meta charset="UTF-8">
+  <title>Zodiac Compatibility</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='daily.css') }}">
   <style>
-    body {
-      background: linear-gradient(to right, #1e1e2f, #2e2e3f);
-      font-family: 'Segoe UI', sans-serif;
-      color: #fff;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    .welcome-container {
-      max-width: 600px;
-      margin: 120px auto 0;
-      padding: 30px;
+    .compat-box {
       background-color: rgba(255, 255, 255, 0.05);
-      border-radius: 15px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 30px;
+      margin-top: 40px;
+      box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
     }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
+    .compat-zodiacs {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
     }
-
-    .lead {
-      font-size: 1.1rem;
-      margin-bottom: 30px;
-    }
-
-    .btn {
-      display: inline-block;
-      width: 180px;
-      padding: 12px 0;
-      margin: 10px;
-      font-size: 1rem;
+    .compat-zodiacs .percent {
+      font-size: 2.5rem;
       font-weight: bold;
-      color: #fff;
-      background-color: transparent;
-      border: 2px solid #fff;
-      border-radius: 30px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all 0.3s ease;
+      color: #ffc9e0;
     }
-
-    .btn:hover {
-      background-color: #ffc9e0;
-      color: #000;
-      border-color: #ffc9e0;
+    .compat-descriptions {
+      display: flex;
+      gap: 20px;
+      text-align: left;
+      margin-top: 20px;
     }
-
-
+    .compat-descriptions .column {
+      flex: 1;
+      padding: 20px;
+      border-radius: 15px;
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+    .compat-descriptions h4 {
+      color: #ffc9e0;
+    }
   </style>
 </head>
 <body>
+  <div class="horoscope-container">
+    <h1 class="horoscope-title">💖 Zodiac Compatibility</h1>
+    <p class="horoscope-subtitle">Compare your sign with another</p>
 
-  <div class="welcome-container">
-    <h2>🌟 Welcome to ZoroScope!</h2>
-    <p class="lead">Discover your daily zodiac magic, {{ name }}!</p>
+    <form class="horoscope-form" method="POST" action="{{ url_for('compatibility_page', username=username) }}">
+      <label for="zodiac2">Compare {{ zodiac1 }} with:</label>
+      <select name="zodiac2" id="zodiac2" required>
+        {% for z in zodiacs %}
+          <option value="{{ z }}" {% if z == zodiac2 %}selected{% endif %}>{{ z }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Check Compatibility</button>
+    </form>
 
-    <a href="{{ url_for('signup_page') }}" class="btn">✨ Sign Up Now</a><br>
-    <a href="{{ url_for('login_page') }}" class="btn">🔑 Login</a>
+    {% if zodiac2 %}
+    <div class="compat-box">
+      <div class="compat-zodiacs">
+        <div>{{ zodiac1 }}</div>
+        <div class="percent">{{ percentage }}%</div>
+        <div>{{ zodiac2 }}</div>
+      </div>
 
+      <div class="compat-descriptions">
+        <div class="column">
+          <h4>👫 Friendship</h4>
+          <p>{{ friendship_desc }}</p>
+        </div>
+        <div class="column">
+          <h4>💘 Relationship</h4>
+          <p>{{ relationship_desc }}</p>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('explore_page', username=username) }}" class="back-btn">🔙 Back to Explore</a>
   </div>
-
 </body>
 </html>

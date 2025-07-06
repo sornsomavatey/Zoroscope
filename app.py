@@ -12,12 +12,12 @@ app = Flask(__name__)
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = DatabaseHandler()
 
-# Load datasets and model for zodiac sign compatibility prediction
-# original_df = pd.read_csv("Zoroscope_dataset_preparation/zodiac_compatibility_dataset.csv")
-# encoded_df = pd.read_csv("Zoroscope_dataset_preparation/encoded_zodiac_compatibility_dataset.csv")
-# descriptions_df = pd.read_csv("Zoroscope_dataset_preparation/zodiac_pairs_description.csv")
-# model = joblib.load("Zoroscope_dataset_preparation/xgb_zodiac_model.pkl")
-# features = joblib.load("Zoroscope_dataset_preparation/xgb_features.pkl")
+#Load datasets and model for zodiac sign compatibility prediction
+original_df = pd.read_csv("Zoroscope_dataset_preparation/zodiac_compatibility_dataset.csv")
+encoded_df = pd.read_csv("Zoroscope_dataset_preparation/encoded_zodiac_compatibility_dataset.csv")
+descriptions_df = pd.read_csv("Zoroscope_dataset_preparation/zodiac_pairs_description.csv")
+model = joblib.load("Zoroscope_dataset_preparation/xgb_zodiac_model.pkl")
+features = joblib.load("Zoroscope_dataset_preparation/xgb_features.pkl")
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -193,62 +193,82 @@ def daily_horoscope(username):
             zodiacs=Zodiac_option,
             username=username
         )
+    
+@app.route("/predict/<username>")
+def compatibility_page(username):
+    user = db.get_user_by_name(username)
+    if not user:
+        return redirect(url_for('login_page'))
 
-# @app.route("/predict", methods=["POST"])
-# def signs_compatibility():
-#     data = request.json
-#     sign1 = data.get("sign1", "").strip().capitalize()
-#     sign2 = data.get("sign2", "").strip().capitalize()
+    user_sign, _ = get_zodiac_sign(user["month"], user["date"])
 
-#     if not sign1 or not sign2:
-#         return jsonify({"error": "Both 'sign1' and 'sign2' are required."}), 400
+    Zodiac_option = [
+        "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
+        "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"
+    ]
 
-#     # Find matching row (either order)
-#     match = original_df[
-#         ((original_df["Sign1"] == sign1) & (original_df["Sign2"] == sign2)) |
-#         ((original_df["Sign1"] == sign2) & (original_df["Sign2"] == sign1))
-#     ]
+    return render_template(
+        "predict.html",
+        username=username,
+        user_sign=user_sign,
+        zodiacs=Zodiac_option
+    )
 
-#     if match.empty:
-#         return jsonify({"error": "Combination not found in the dataset."}), 404
+@app.route("/predict", methods=["POST"])
+def signs_compatibility():
+    data = request.json
+    sign1 = data.get("sign1", "").strip().capitalize()
+    sign2 = data.get("sign2", "").strip().capitalize()
 
-#     idx = match.index[0]
+    if not sign1 or not sign2:
+        return jsonify({"error": "Both 'sign1' and 'sign2' are required."}), 400
 
-#     # Fetch encoded row
-#     row_encoded = encoded_df.iloc[[idx]].copy()
-#     row_encoded = row_encoded.drop(columns=["Compatibility_rate"], errors="ignore")
-#     row_encoded = row_encoded.reindex(columns=features, fill_value=0)
+    # Find matching row (either order)
+    match = original_df[
+        ((original_df["Sign1"] == sign1) & (original_df["Sign2"] == sign2)) |
+        ((original_df["Sign1"] == sign2) & (original_df["Sign2"] == sign1))
+    ]
 
-#     # Predict compatibility
-#     pred = model.predict(row_encoded)[0]
-#     round_pred= float(round(pred, 2)) 
+    if match.empty:
+        return jsonify({"error": "Combination not found in the dataset."}), 404
+
+    idx = match.index[0]
+
+    # Fetch encoded row
+    row_encoded = encoded_df.iloc[[idx]].copy()
+    row_encoded = row_encoded.drop(columns=["Compatibility_rate"], errors="ignore")
+    row_encoded = row_encoded.reindex(columns=features, fill_value=0)
+
+    # Predict compatibility
+    pred = model.predict(row_encoded)[0]
+    round_pred= float(round(pred, 2)) 
     
 
-#     # Get descriptions
-#     desc_rows = descriptions_df[
-#         ((descriptions_df["Sign1"] == sign1) & (descriptions_df["Sign2"] == sign2)) |
-#         ((descriptions_df["Sign1"] == sign2) & (descriptions_df["Sign2"] == sign1))
-#     ]
+    # Get descriptions
+    desc_rows = descriptions_df[
+        ((descriptions_df["Sign1"] == sign1) & (descriptions_df["Sign2"] == sign2)) |
+        ((descriptions_df["Sign1"] == sign2) & (descriptions_df["Sign2"] == sign1))
+    ]
 
-#     descriptions = {}
-#     if desc_rows.empty:
-#         descriptions["Friends"] = "No description available."
-#         descriptions["Couple"] = "No description available."
-#     else:
-#         # Friends descriptions
-#         friends_texts = desc_rows[desc_rows["RelationshipType"] == "Friends"]["Description"].tolist()
-#         couple_texts = desc_rows[desc_rows["RelationshipType"] == "Couple"]["Description"].tolist()
+    descriptions = {}
+    if desc_rows.empty:
+        descriptions["Friends"] = "No description available."
+        descriptions["Couple"] = "No description available."
+    else:
+        # Friends descriptions
+        friends_texts = desc_rows[desc_rows["RelationshipType"] == "Friends"]["Description"].tolist()
+        couple_texts = desc_rows[desc_rows["RelationshipType"] == "Couple"]["Description"].tolist()
 
-#         descriptions["Friends"] = " ".join(friends_texts) if friends_texts else "No description available."
-#         descriptions["Couple"] = " ".join(couple_texts) if couple_texts else "No description available."
+        descriptions["Friends"] = " ".join(friends_texts) if friends_texts else "No description available."
+        descriptions["Couple"] = " ".join(couple_texts) if couple_texts else "No description available."
 
 
-#     return jsonify({
-#         "sign1": sign1,
-#         "sign2": sign2,
-#         "compatibility_score": round_pred,
-#         "descriptions": descriptions
-#     })
+    return jsonify({
+        "sign1": sign1,
+        "sign2": sign2,
+        "compatibility_score": round_pred,
+        "descriptions": descriptions
+    })
 
 
 if __name__ == '__main__':
