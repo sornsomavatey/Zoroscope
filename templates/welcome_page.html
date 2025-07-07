@@ -1,22 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Welcome - ZoroScope</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="{{ url_for('static', filename='welcome.css') }}" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Welcome - ZoroScope</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="{{ url_for('static', filename='welcome.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap" rel="stylesheet" />
+
+
 </head>
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Zoroscope</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navMenu"
+                aria-controls="navMenu"  
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+            </button>
 
-  <div class="welcome-container">
-    <h2>🌟 Welcome to ZoroScope!</h2>
-    <p class="lead">Discover your daily zodiac magic, {{ name }}!</p>
-    <div>
-      <a href="{{ url_for('signup_page') }}" class="custom-btn">✨ Sign Up Now</a><br>
-      <a href="{{ url_for('login_page') }}" class="custom-btn">🔑 Login</a>
-    </div>
-  </div>
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="#">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <section class="hero-banner d-flex align-items-center text-white">
+        <div class="container text-center">
+            <h1 class="fw-bold">Love. Destiny. Written in the Stars.</h1>
+            <p>Reveal what the universe has in store for you — from daily horoscopes to soulmate insights.</p>
+            <!--<a href="#" class="btn btn-primary mt-3">Let's go</a>-->
+        </div>
+    </section>
+    <!-- highlight Section -->
+    <section class="features py-5 text-white">
+        <div class="container text-center">
+            <h2 class="mb-4">✨ What You Can Do</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <h5>🔍 Daily horoscope</h5>
+                    <p>Enter your birthday and get your life update.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>💖 Personality Match</h5>
+                    <p>Explore compatibility between you and your crush, friends, or partner.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>🌈 Lucky Colors & Tips</h5>
+                    <p>Get daily color advice and lifestyle tips based on your zodiac energy.</p>
+                </div>
+                <div class="col-md-3">
+                    <h5>🎂 Birthday Countdown</h5>
+                    <p>Never miss the magic of your special day!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="welcome-container">
+            <h2>🔮 Step Into Your Cosmic Journey 🔮</h2>
+            <p class="lead">Discover personalized zodiac readings, compatibility guidance, and cosmic insights tailored for you.</p>
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{{ url_for('signup_page') }}" class="custom-btn">✨ Sign Up Now</a><br>
+                <a href="{{ url_for('login_page') }}" class="custom-btn">🔑 Login</a>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer class="footer custom-footer border-top mt-5 pt-4">
+        <div class="container py-4">
+            <!-- About Komi -->
+            <div class="text-center mb-4">
+            <h5 class=" fw-bold">About Zoroscope</h5>
+            <p style="max-width: 600px; margin: 0 auto;">
+                Zoroscope helps you explore your zodiac sign, discover compatibility, and embrace daily guidance from the universe. Join thousands who follow their cosmic path every day!
+            </p>
+            </div>
+
+            <!-- Social & Payment Row -->
+            <div class="row text-center text-md-start align-items-center">
+                <!-- Social Media -->
+                <div class="col-md-6 mb-3 mb-md-0">
+                    <h6 class="fw-semibold mb-2">Follow Us</h6>
+                    <a href="#" class="text-muted mx-2 fs-4" aria-label="Visit our Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-muted mx-2 fs-4" aria-label="Visit our Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-muted mx-2 fs-4" aria-label="Visit our TikTok"><i class="fab fa-tiktok"></i></a>
+                    <a href="#" class="text-muted mx-2 fs-4" aria-label="Visit our Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="col-md-6 text-md-end">
+                    <h6 class="fw-bold mb-2">Donate Us!</h6>
+                    <img src="{{ url_for('static', filename='images/aba.jpg') }}" alt="ABA Pay" style="height: 40px; margin-right: 10px; border-radius: 10px;">
+                    <img src="{{ url_for('static', filename='images/acelida.png') }}" alt="ACLEDA Pay" style="height: 40px;">
+                </div>
+
+                <!-- Copyright -->
+                <div class="text-center mt-4">
+                    <p class="text-muted small mb-0">© 2025 Zoroscope. All rights reserved.</p>
+                </div>
+
+            </div>
+    </footer>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
