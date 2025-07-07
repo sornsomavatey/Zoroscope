@@ -34,17 +34,6 @@ class DatabaseHandler:
             "year": year
         })  
     
-    def get_user_by_name(self, username):
-        user = self.users.find_one({"name": username})
-        if user:
-            return {
-                "name": user.get("name"),
-                "year": user.get("year"),
-                "month": user.get("month"),
-                "date": user.get("date")
-            }
-        return None
-    
     def get_user_by_email(self, email):
         user = self.users.find_one({"email": email})
         if user:
