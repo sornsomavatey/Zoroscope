@@ -87,7 +87,7 @@ button:hover {
 
 .compatibility-score {
   font-size: 2rem;
-  color: #ff006f;
+  color: #f185b4;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* X, Y, blur, color */
 }
