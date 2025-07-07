@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(to right, #2b164f, #150c2e);
+  background: linear-gradient(to right, #3f104c, #211348);
   font-family: 'Segoe UI', sans-serif;
   color: #fff;
   padding: 50px 20px;
@@ -86,8 +86,8 @@ button:hover {
 }
 
 .compatibility-score {
-  font-size: 2rem;
-  color: #ff006f;
+  font-size: 2.5rem;
+  color: #ffe3ef;
   font-weight: bold;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* X, Y, blur, color */
 }
