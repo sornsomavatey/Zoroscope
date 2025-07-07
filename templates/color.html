@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lucky Color</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='predict.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='color.css') }}">
+</head>
+<body>
+  <div class="color-container">
+    <h1 class="color-title">🎨 Lucky Color for {{ sign }}</h1>
+    <img class="color-image" src="{{ url_for('static', filename='images/' ~ image) }}" alt="{{ sign }} lucky color">
+    <p class="color-desc"><strong>{{ color }}</strong>: {{ description }}</p>
+    <a href="{{ url_for('explore_page', username=username) }}" class="back-btn">🔙 Back to Explore</a>
+  </div>
+</body>
+</html>

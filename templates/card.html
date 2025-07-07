@@ -28,9 +28,14 @@
             </div>
 
             <div class="card">
-                <img src="{{ url_for('static', filename='images/personality.jpeg') }}" alt="Personality Matcher">
-                <a href="/personality" class="btn">Personality Matcher</a>
+                <img src="{{ url_for('static', filename='images/personality.jpeg') }}" alt="Prediction">
+                {% if username %}
+                    <a href="{{ url_for('compatibility_page', username=username) }}" class="btn">Zodiac Compatibility</a>
+                {% else %}
+                    <a href="/login">Login to Predict</a>
+                {% endif %}
             </div>
+
 
             <div class="card">
                 <img src="{{ url_for('static', filename='images/birthday countdown.jpeg') }}" alt="Birthday Countdown">
