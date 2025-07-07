@@ -1,32 +1,19 @@
 import requests
 
-# Adjust if your server is on a different port
-url = "http://127.0.0.1:5000/predict"
+URL = "http://127.0.0.1:5000/lucky_colors"
 
-# Example zodiac signs to test
 payload = {
-    "sign1": "pisces",
-    "sign2": "Leo"
+    "user_id": "68658d3cd3ecdca4fe06e62d"
 }
 
-# Make the POST request
-response = requests.post(url, json=payload)
+response = requests.post(URL, json=payload)
 
-# Display the results
-if response.ok:
-    data = response.json()
-    print("✅ Prediction Result:")
-    print(f"- Sign 1: {data.get('sign1')}")
-    print(f"- Sign 2: {data.get('sign2')}")
-    print(f"- Compatibility Score: {round(data.get('compatibility_score', 0) * 100, 2)}%")
+print("Status Code:", response.status_code)
+print("Raw Response Text:")
+print(response.text)
 
-    
-    if "descriptions" in data:
-        print("\nDescriptions:")
-        for rel_type, desc in data["descriptions"].items():
-            print(f"{rel_type}: {desc}")
-else:
-    print("❌ Error:")
-    print(response.status_code, response.text)
-
-
+try:
+    print("Response JSON:")
+    print(response.json())
+except Exception as e:
+    print("Error parsing JSON:", e)

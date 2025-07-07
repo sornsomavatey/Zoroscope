@@ -14,8 +14,8 @@
             <div class="card">
                 <img src="{{ url_for('static', filename='images/Ethereal Spiral Galaxy.jpeg') }}" alt="Daily Horoscope">
                 
-                {% if username %}
-                    <a href="{{ url_for('daily_horoscope', username=username) }}"class="btn">Read Today's Horoscope</a>
+                {% if user_id %}
+                    <a href="{{ url_for('daily_horoscope', user_id=user_id) }}"class="btn">Read Today's Horoscope</a>
                 {% else %}
                     <a href="/login">Login to See Your Horoscope</a>
                 {% endif %}
@@ -29,7 +29,7 @@
 
             <div class="card">
                 <img src="{{ url_for('static', filename='images/personality.jpeg') }}" alt="Personality Matcher">
-                <a href="/personality" class="btn">Personality Matcher</a>
+                <a href="{{ url_for('compatibility_page', user_id=user_id) }}" class="btn">Personality Matcher</a>
             </div>
 
             <div class="card">

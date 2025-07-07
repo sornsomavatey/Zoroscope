@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
-from db import DatabaseHandler, get_zodiac_sign
+from db import *
 from bs4 import BeautifulSoup
 from datetime import datetime
 import pandas as pd
-import re
+from bson import ObjectId
 import requests
 import joblib
 
@@ -13,11 +13,11 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 db = DatabaseHandler()
 
 #Load datasets and model for zodiac sign compatibility prediction
-original_df = pd.read_csv("Zoroscope_dataset_preparation/zodiac_compatibility_dataset.csv")
-encoded_df = pd.read_csv("Zoroscope_dataset_preparation/encoded_zodiac_compatibility_dataset.csv")
-descriptions_df = pd.read_csv("Zoroscope_dataset_preparation/zodiac_pairs_description.csv")
-model = joblib.load("Zoroscope_dataset_preparation/xgb_zodiac_model.pkl")
-features = joblib.load("Zoroscope_dataset_preparation/xgb_features.pkl")
+original_df = pd.read_csv("Zoroscope_dataset/zodiac_compatibility_dataset.csv")
+encoded_df = pd.read_csv("Zoroscope_dataset/encoded_zodiac_compatibility_dataset.csv")
+descriptions_df = pd.read_csv("Zoroscope_dataset/zodiac_pairs_description.csv")
+model = joblib.load("Zoroscope_dataset/xgb_zodiac_model.pkl")
+features = joblib.load("Zoroscope_dataset/xgb_features.pkl")
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -69,61 +69,59 @@ def login_page():
         password = data.get('password')
 
         if not email or not password:
-            return jsonify({'message': 'Username and password required'}), 400
+            return jsonify({'message': 'email and password required'}), 400
 
         if db.authenticate_user(email, password):
             user = db.get_user_by_email(email)
             
             return jsonify({
                 'message': f'Welcome back, {user["name"]}!',
+                'user_id': str(user["user_id"]),
                 'username': user["name"],
-                'redirect': url_for('greeting', username=user["name"])
-            })
-            200
+                'redirect': url_for('greeting', user_id=str(user["user_id"]))
+            }), 200
         else:
-            return jsonify({'message': ' Invalid username or password'}), 401
+            return jsonify({'message': ' Invalid email or password'}), 401
 
     return render_template('login.html')
 
-def get_user_zodiac(username):
+def get_user_zodiac(user_id):
     """
     Load user data and return (sign_name, sign_icon)
     """
-    user = db.get_user_by_name(username)
-    
-    if not user:
-        return None, None  # or raise an error
-    
+    user = db.get_user_by_id(user_id)
+
     birthday = datetime(user['year'], user['month'], user['date'])
     sign, icon = get_zodiac_sign(birthday.month, birthday.day)
     return sign, icon
 
 
-@app.route('/greeting/<username>')
-def greeting(username):
+@app.route('/greeting/<user_id>')
+def greeting(user_id):
     
-    user = db.get_user_by_name(username)
+    user = db.get_user_by_id(user_id)
     if not user:
         return redirect(url_for('login_page'))
 
-    sign, icon = get_user_zodiac(username)
+    sign, icon = get_user_zodiac(user_id)
     quote = "Believe in yourself and the stars will align ✨"
 
     return render_template(
         "greeting.html",
-        username=username,
+        username=user["name"],
+        user_id=user_id,
         zodiac=sign,
         zodiac_icon=icon,
         quote=quote
     )
 
 
-@app.route('/explore/<username>')
-def explore_page(username):
-    return render_template('card.html', username=username)
+@app.route('/explore/<user_id>')
+def explore_page(user_id):
+    return render_template('card.html', user_id=user_id)
 
-@app.route('/daily-horoscope/<username>', methods=["GET", "POST"])
-def daily_horoscope(username):
+@app.route('/daily-horoscope/<user_id>', methods=["GET", "POST"])
+def daily_horoscope(user_id):
 
     Zodiac_option = [
         "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
@@ -143,9 +141,9 @@ def daily_horoscope(username):
 
     elif request.method == "GET":
         # GET request, load user and get their zodiac sign
-        user = db.get_user_by_name(username)
+        user = db.get_user_by_id(user_id)
         if not user:
-            return f"User '{username}' not found.", 404
+            return f"User ID {user_id} not found.", 404
 
         sign_name, _ = get_zodiac_sign(user['month'], user['date'])  # unpack tuple
         sign = sign_name    
@@ -161,7 +159,7 @@ def daily_horoscope(username):
             today=today_date,
             horoscope_text=horoscope_text,
             zodiacs=Zodiac_option,
-            username=username
+            user_id=user_id
         )
     
     else: 
@@ -191,12 +189,59 @@ def daily_horoscope(username):
             today=today_date,
             horoscope_text=horoscope_text,
             zodiacs=Zodiac_option,
-            username=username
+            user_id=user_id
         )
     
-@app.route("/predict/<username>")
-def compatibility_page(username):
-    user = db.get_user_by_name(username)
+
+def lucky_color_from_birthdate(birthdate):
+    month = birthdate.month
+    day = birthdate.day
+
+    sign_name, _ = get_zodiac_sign(month, day)  # unpack tuple
+    sign = sign_name    
+
+    moon_phase = db.get_moon_phase(birthdate)
+    planet = RULING_PLANETS.get(sign)
+
+    sign_colors = ZODIAC_COLORS.get(sign, [])
+    moon_colors = MOON_PHASE_COLORS.get(moon_phase, [])
+    planet_colors = PLANET_COLORS.get(planet, [])
+
+    all_colors = sign_colors * 3 + planet_colors * 2 + moon_colors
+    unique_colors = list(dict.fromkeys(all_colors))
+
+    return {
+        "birthdate": birthdate.strftime("%Y-%m-%d"),
+        "sign": sign,
+        "ruling_planet": planet,
+        "moon_phase": moon_phase,
+        "lucky_colors": unique_colors
+    }
+
+@app.route("/lucky_colors", methods=["POST"])
+def lucky_colors():
+    data = request.get_json()
+    if not data or "user_id" not in data:
+        return jsonify({"error": "Missing user_id in request body."}), 400
+
+    user_id = data["user_id"]
+    user = db.get_user_by_id(user_id)
+
+    if not user:
+        return jsonify({"error": "User not found or invalid user ID."}), 404
+
+    if not all(u in user for u in ["year", "month", "date"]):
+        return jsonify({"error": "Date fields missing in user data."}), 400
+
+    birthdate = datetime(user["year"], user["month"], user["date"])
+    result = lucky_color_from_birthdate(birthdate)
+
+    return jsonify(result), 200
+
+    
+@app.route("/predict/<user_id>")
+def compatibility_page(user_id):
+    user = db.get_user_by_id(user_id)
     if not user:
         return redirect(url_for('login_page'))
 
@@ -209,7 +254,8 @@ def compatibility_page(username):
 
     return render_template(
         "predict.html",
-        username=username,
+        username=user["name"],
+        user_id=user_id,
         user_sign=user_sign,
         zodiacs=Zodiac_option
     )
@@ -241,7 +287,7 @@ def signs_compatibility():
 
     # Predict compatibility
     pred = model.predict(row_encoded)[0]
-    round_pred= float(round(pred, 2)) 
+    round_pred = round(float(pred) * 100, 2)
     
 
     # Get descriptions
@@ -261,7 +307,6 @@ def signs_compatibility():
 
         descriptions["Friends"] = " ".join(friends_texts) if friends_texts else "No description available."
         descriptions["Couple"] = " ".join(couple_texts) if couple_texts else "No description available."
-
 
     return jsonify({
         "sign1": sign1,

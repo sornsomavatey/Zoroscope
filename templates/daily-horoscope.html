@@ -10,7 +10,7 @@
     <h1 class="horoscope-title">✨ Your Daily Horoscope ✨</h1>
     <p class="horoscope-subtitle">Choose your sign to reveal the stars' message...</p>
 
-    <form class="horoscope-form"  method="post" action="{{ url_for('daily_horoscope', username=username) }}">
+    <form class="horoscope-form"  method="post" action="{{ url_for('daily_horoscope', user_id=user_id) }}">
       <label for="sign">Choose your sign:</label>
       <select name="sign" id="sign">
         {% for s in zodiacs %}
@@ -28,7 +28,7 @@
         <p class="placeholder">Your daily horoscope will appear here...</p>
       {% endif %}
   </div>  
-    <a href="{{ url_for('explore_page', username=username) }}" class="back-btn">🔙 Back to Explore</a>
+    <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn">🔙 Back to Explore</a>
   </div>
 </body>
 </html>

@@ -1,5 +1,7 @@
 from pymongo import MongoClient
 import hashlib
+import ephem  
+from bson import ObjectId
 
 
 class DatabaseHandler:
@@ -10,7 +12,6 @@ class DatabaseHandler:
         
 
     def hash_password(self, password):
-        # Simple hash for demonstration (you may use bcrypt for more security)
         return hashlib.sha256(password.encode()).hexdigest()
 
     def authenticate_user(self, email, password):
@@ -36,7 +37,6 @@ class DatabaseHandler:
     def get_user_by_name(self, username):
         user = self.users.find_one({"name": username})
         if user:
-            # Return relevant fields
             return {
                 "name": user.get("name"),
                 "year": user.get("year"),
@@ -49,6 +49,7 @@ class DatabaseHandler:
         user = self.users.find_one({"email": email})
         if user:
             return {
+                "user_id": str(user.get("_id")),
                 "name": user.get("name"),
                 "email": user.get("email"),
                 "year": user.get("year"),
@@ -56,6 +57,18 @@ class DatabaseHandler:
                 "date": user.get("date")
             }
         return None
+    
+    def get_user_by_id(self, user_id):
+        user = self.users.find_one({"_id": ObjectId(user_id)})
+        if user:
+            return {
+                "name": user.get("name"),
+                "email": user.get("email"),
+                "year": user.get("year"),
+                "month": user.get("month"),
+                "date": user.get("date")
+            }
+        return None   
 
 def get_zodiac_sign(month, day):
     zodiac_signs = [
@@ -79,6 +92,84 @@ def get_zodiac_sign(month, day):
             return sign, icon
     return "Capricorn", "♑"
 
+def get_moon_phase(date):
+    moon = ephem.Moon(date)
+    phase = moon.phase
 
+    if phase < 1.5:
+        return "New Moon"
+    elif 1.5 <= phase < 25:
+        return "Waxing Crescent"
+    elif 25 <= phase < 35:
+        return "First Quarter"
+    elif 35 <= phase < 49:
+        return "Waxing Gibbous"
+    elif 49 <= phase < 51:
+        return "Full Moon"
+    elif 51 <= phase < 65:
+        return "Waning Gibbous"
+    elif 65 <= phase < 75:
+        return "Last Quarter"
+    elif 75 <= phase < 99:
+        return "Waning Crescent"
+    else:
+        return "New Moon"
+
+# Zodiac Sign Color Associations
+ZODIAC_COLORS = {
+    "Aries": ["Red", "Orange", "Yellow"],
+    "Taurus": ["Green", "Brown", "Muted Yellow"],
+    "Gemini": ["Yellow", "Light Blue", "Orange"],
+    "Cancer": ["Blue", "Green", "White"],
+    "Leo": ["Bright Yellow", "Orange", "Gold"],
+    "Virgo": ["Subtle Green", "Brown", "Light Blue"],
+    "Libra": ["Blue", "Pink", "Violet"],
+    "Scorpio": ["Red", "Black", "Violet"],
+    "Sagittarius": ["Yellow", "Blue", "Orange"],
+    "Capricorn": ["Brown", "Gray", "Dark Blue"],
+    "Aquarius": ["Blue", "Green", "White"],
+    "Pisces": ["Light Blue", "Violet", "Green"]
+}
+
+# 8 Moon Phase Color Associations
+MOON_PHASE_COLORS = {
+    "New Moon": ["Black", "Dark Blue", "Deep Purple"],
+    "Waxing Crescent": ["Light Green", "Pale Yellow"],
+    "First Quarter": ["Red", "Orange"],
+    "Waxing Gibbous": ["Gold", "Bright Yellow", "Light Blue"],
+    "Full Moon": ["White", "Silver", "Light Blue"],
+    "Waning Gibbous": ["Violet", "Indigo", "Soft Blue"],
+    "Last Quarter": ["Gray", "Brown"],
+    "Waning Crescent": ["Dark Green", "Black", "Deep Blue"]
+}
+
+# Planetary Color Associations
+PLANET_COLORS = {
+    "Sun": ["Gold", "Orange"],
+    "Moon": ["Silver", "White"],
+    "Mars": ["Red"],
+    "Venus": ["Pink", "Green"],
+    "Jupiter": ["Royal Blue", "Purple"],
+    "Saturn": ["Dark Blue", "Black"],
+    "Mercury": ["Yellow", "Light Blue"],
+    "Uranus": ["Electric Blue"],
+    "Neptune": ["Sea Green"],
+    "Pluto": ["Black", "Deep Red"]
+}
+
+RULING_PLANETS = {
+    "Aries": "Mars",
+    "Taurus": "Venus",
+    "Gemini": "Mercury",
+    "Cancer": "Moon",
+    "Leo": "Sun",
+    "Virgo": "Mercury",
+    "Libra": "Venus",
+    "Scorpio": "Pluto",
+    "Sagittarius": "Jupiter",
+    "Capricorn": "Saturn",
+    "Aquarius": "Uranus",
+    "Pisces": "Neptune"
+}
 
 
