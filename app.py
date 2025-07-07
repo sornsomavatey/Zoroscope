@@ -283,7 +283,7 @@ def signs_compatibility():
     # Fetch encoded row
     row_encoded = encoded_df.iloc[[idx]].copy()
     row_encoded = row_encoded.drop(columns=["Compatibility_rate"], errors="ignore")
-    row_encoded = row_encoded.reindex(columns=features, fill_value=0)
+    row_encoded = row_encoded.reindex(columns=features, fill_value=0) 
 
     # Predict compatibility
     pred = model.predict(row_encoded)[0]
@@ -315,6 +315,28 @@ def signs_compatibility():
         "descriptions": descriptions
     })
 
+@app.route('/lucky-color/<username>')
+def lucky_color_page(username):
+    user = db.get_user_by_name(username)
+    if not user:
+        return redirect(url_for('login_page'))
+
+    sign, _ = get_zodiac_sign(user['month'], user['date'])
+
+    color_data = {
+        "Aries": {"image": "aries.jpg", "color": "Red", "desc": "Red energizes Aries and boosts confidence."},
+        "Taurus": {"image": "taurus.jpg", "color": "Green", "desc": "Green brings Taurus calm and prosperity."},
+        "Gemini": {"image": "gemini.jpg", "color": "Yellow", "desc": "Yellow stimulates Gemini’s curiosity and joy."},
+        # Add more...
+    }
+
+    info = color_data.get(sign, {
+        "image": "default.jpg",
+        "color": "Unknown",
+        "desc": "No lucky color available."
+    })
+
+    return render_template("color.html", username=username, sign=sign, color=info["color"], description=info["desc"], image=info["image"])
 
 if __name__ == '__main__':
     from os import environ
