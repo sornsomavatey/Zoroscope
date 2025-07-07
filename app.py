@@ -200,7 +200,7 @@ def lucky_color_from_birthdate(birthdate):
     sign_name, _ = get_zodiac_sign(month, day)  # unpack tuple
     sign = sign_name    
 
-    moon_phase = db.get_moon_phase(birthdate)
+    moon_phase = get_moon_phase(birthdate)
     planet = RULING_PLANETS.get(sign)
 
     sign_colors = ZODIAC_COLORS.get(sign, [])
