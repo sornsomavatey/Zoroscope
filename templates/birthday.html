@@ -43,7 +43,7 @@
 
     <script>
         async function fetchCountdown() {
-        const response = await fetch("/countdown/{{ user_id }}");
+        const response = await fetch("/api/countdown/{{ user_id }}");
         const data = await response.json();
 
         if (data.error) {

@@ -307,6 +307,11 @@ def signs_compatibility():
 
 @app.route("/countdown/<user_id>")
 def countdown_page(user_id):
+    return render_template("birthday.html", user_id=user_id)
+
+
+@app.route("/api/countdown/<user_id>")
+def countdown_api(user_id):
 
     birthday= get_user_birthdate(user_id)
 
@@ -335,16 +340,13 @@ def countdown_page(user_id):
     birthday_datetime = datetime.combine(next_birthday, datetime.min.time())
     time_left = birthday_datetime - now
 
-    response = {
+    return jsonify({
         "next_birthday": next_birthday.strftime("%Y-%m-%d"),
         "days": time_left.days,
         "hours": time_left.seconds // 3600,
         "minutes": (time_left.seconds % 3600) // 60,
-        "seconds": time_left.seconds % 60
-    }
-
-    return jsonify(response)
-
+        "seconds": time_left.seconds % 60,
+    })
 
 
 if __name__ == '__main__':
