@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Zoroscope Blog</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='blog.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('welcome') }}">Zoroscope</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navMenu"
+                aria-controls="navMenu"  
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('blog_page') }}">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('about_page') }}">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('contact_page') }}">Contact Us</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <!-- Blog Section -->
+    <div class="container blog-section pt-5 mt-5">
+      <h1 class="text-center mb-4">Zoroscope Blog</h1>
+      <div class="row justify-content-center">
+
+        <!-- Blog Post 1 -->
+        <div class="col-md-4 mb-4">
+          <div class="card blog-card shadow-lg">
+            <img src="{{ url_for('static', filename='images/catstarry.png') }}" class="card-img-top" alt="Zodiac Secrets">
+            <div class="card-body">
+              <h5 class="card-title">The Secrets Behind Your Zodiac Sign</h5>
+              <p class="card-text">Discover what makes your sign unique and how it influences your personality and relationships...</p>
+              <a href="#" class="btn btn-outline-light">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog Post 2 -->
+        <div class="col-md-4 mb-4">
+          <div class="card blog-card shadow-lg">
+            <img src="{{ url_for('static', filename='images/beach.png') }}" class="card-img-top" alt="Moon and Emotions">
+            <div class="card-body">
+              <h5 class="card-title">How Moon Phases Affect Your Mood</h5>
+              <p class="card-text">Learn how the phases of the moon impact your emotional state, energy levels, and more...</p>
+              <a href="#" class="btn btn-outline-light">Read More</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Blog Post 3 -->
+        <div class="col-md-4 mb-4">
+          <div class="card blog-card shadow-lg">
+            <img src="{{ url_for('static', filename='images/crystal.png') }}" class="card-img-top" alt="Color Vibes">
+            <div class="card-body">
+              <h5 class="card-title">Lucky Colors & Energy Vibes</h5>
+              <p class="card-text">Color is more powerful than you think — explore how certain hues align with your zodiac energy...</p>
+              <a href="#" class="btn btn-outline-light">Read More</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="footer mt-5 py-3 border-top text-center">
+      <div class="container">
+        <span>&copy; 2025 Zoroscope ✨ All rights reserved.</span>
+      </div>
+    </footer>
+</body>
+</html>

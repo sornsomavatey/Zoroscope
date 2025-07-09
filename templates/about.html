@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Zoroscope</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='about.css') }}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg shadow-sm fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="{{ url_for('welcome') }}">Zoroscope</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navMenu"
+                aria-controls="navMenu"  
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('blog_page') }}">Blog</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('about_page') }}">About Us</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ url_for('contact_page') }}">Contact Us</a></li>
+            </ul>
+        </div>
+        </div>
+    </nav>
+    <div class="container about-section text-center py-4 pt-5 mt-5">
+        <h1 class="text-center">About Zoroscope</h1>
+        <p class="text-center">Your cosmic companion to self-discovery.</p>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h4>Our Mission</h4>
+                <p>At Zoroscope, we aim to make astrology meaningful and interactive. Our platform combines traditional zodiac insights with modern technology to help users explore personality traits, compatibility, and cosmic guidance.</p>
+            </div>
+                <div class="col-md-6">
+                    <img src="{{ url_for('static', filename='images/Starry.png') }}" alt="Our Mission" class="img-fluid rounded shadow">
+                </div>
+            </div>
+
+            <div class="row mt-5">
+                <div class="col-md-6 order-md-2">
+                    <h4>Why Zoroscope?</h4>
+                    <p>We don’t just tell horoscopes — we deliver experiences. Whether you're exploring lucky colors, compatibility, or daily vibes, Zoroscope lets you discover and reflect in a beautifully designed journey.</p>
+                </div>
+            <div class="col-md-6 order-md-1">
+                <img src="{{ url_for('static', filename='images/Ancientstone.png') }}" alt="Why Zoroscope" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 team-section">
+        <h2 class="text-center mb-4">Meet Our Team</h2>
+        <div class="row justify-content-center">
+
+            <!-- Member 1 -->
+            <div class="col-md-2 col-sm-6 text-center team-member mx-3 mb-4">
+                <img src="{{ url_for('static', filename='images/IMG_8582.jpg') }}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Member 1">
+                <h5 class="mt-2">Neta Khem</h5>
+                <p class="small">Leader</p>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="col-md-2 col-sm-6 text-center team-member mx-3 mb-4">
+                <img src="{{ url_for('static', filename='images/IMG_1981.jpg') }}" class="img-fluid rounded-circle shadow-sm mb-2 member2-img" alt="Member 2">
+                <h5 class="mt-2">Somavatey Sorn</h5>
+                <p class="small">Frontend Developer</p>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="col-md-2 col-sm-6 text-center team-member mx-3 mb-4">
+                <img src="{{ url_for('static', filename='images/IMG_7069.jpg') }}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Member 3">
+                <h5 class="mt-2">Kolney Lunleng</h5>
+                <p class="small">Backend Developer</p>
+            </div>
+
+            <!-- Member 4 -->
+            <div class="col-md-2 col-sm-6 text-center team-member mx-3 mb-4">
+                <img src="{{ url_for('static', filename='images/IMG_3312.jpg') }}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Member 4">
+                <h5 class="mt-2">Linda Horng</h5>
+                <p class="small">Project Corrdinator</p>
+            </div>
+
+            <!-- Member 5 -->
+            <div class="col-md-2 col-sm-6 text-center team-member mx-3 mb-4">
+                <img src="{{ url_for('static', filename='images/IMG_7532.jpg') }}" class="img-fluid rounded-circle shadow-sm mb-2" alt="Member 5">
+                <h5 class="mt-2">Cheaye Thet</h5>
+                <p class="small">Content & Project Documentation</p>
+            </div>
+
+        </div>
+    </div>
+
+
+    <footer class="footer mt-5 py-3 border-top text-center">
+        <div class="container">
+            <span>&copy; 2025 Zoroscope ✨ All rights reserved.</span>
+        </div>
+    </footer>
+</body>
+</html>
