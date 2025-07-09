@@ -28,6 +28,20 @@ app = Flask(__name__)
 def welcome():
     name = request.args.get('name', 'Guest')
     return render_template('welcome_page.html', name=name)
+# About us page
+@app.route("/about")
+def about_page():
+    return render_template("about.html")
+#Blog Page
+@app.route('/blog')
+def blog_page():
+    return render_template('blog.html')
+@app.route('/contact')
+def contact_page():
+    return render_template('contact.html')
+
+
+
 
 # Sign-up page
 @app.route('/signup-page')

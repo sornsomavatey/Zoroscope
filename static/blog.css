@@ -1,0 +1,70 @@
+body {
+  background: linear-gradient(to right, #5a0353, #1a1a31);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+}
+.navbar {
+  background-color: rgba(203, 144, 224, 0);
+}
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: white;
+}
+.nav-link {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #fff;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.nav-link:hover, .nav-link:focus {
+  color: #ff55f6;
+  text-shadow: 0 0 8px #ff55f6;
+}
+.blog-section h1 {
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px #ff55f6;
+  margin-bottom: 2rem;
+}
+
+.blog-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid #ff55f6;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 20px #ff55f6;
+}
+
+.card-title {
+  font-weight: 700;
+  color: #ffbbff;
+}
+
+.card-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #e8e8f5;
+}
+
+.btn-outline-light {
+  border-color: #ff55f6;
+  color: #fff;
+}
+
+.btn-outline-light:hover {
+  background-color: #ff55f6;
+  color: #000;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
