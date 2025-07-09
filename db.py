@@ -161,4 +161,37 @@ RULING_PLANETS = {
     "Pisces": "Neptune"
 }
 
+COLOR_HEX_MAP = {
+    "Red": "#FF0000",
+    "Orange": "#FFA500",
+    "Yellow": "#FFFF00",
+    "Green": "#008000",
+    "Brown": "#A52A2A",
+    "Muted Yellow": "#D8B500",
+    "Light Blue": "#ADD8E6",
+    "Blue": "#0000FF",
+    "White": "#FFFFFF",
+    "Bright Yellow": "#FFEA00",
+    "Gold": "#FFD700",
+    "Subtle Green": "#90EE90",
+    "Pink": "#FFC0CB",
+    "Violet": "#8F00FF",
+    "Black": "#000000",
+    "Gray": "#808080",
+    "Dark Blue": "#00008B",
+    "Deep Purple": "#673AB7",
+    "Light Green": "#90EE90",
+    "Pale Yellow": "#FFFFE0",
+    "Silver": "#C0C0C0",
+    "Indigo": "#4B0082",
+    "Soft Blue": "#87CEFA",
+    "Dark Green": "#006400",
+    "Deep Blue": "#001F3F",
+    "Royal Blue": "#4169E1",
+    "Purple": "#800080",
+    "Electric Blue": "#7DF9FF",
+    "Sea Green": "#2E8B57",
+    "Deep Red": "#8B0000"
+}
+
 

@@ -1,44 +1,76 @@
-/* Lucky Colors page custom styles */
+/* Match layout from daily.css */
 
-.sign-image {
-  max-height: 200px;
+body {
+  background: linear-gradient(to right, #5a0353, #1a1a31);
+  font-family: 'Segoe UI', sans-serif;
+  color: #fff;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.horoscope-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.horoscope-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.horoscope-subtitle {
+  font-size: 1.2rem;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.horoscope-box {
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+  text-align: center;
+  margin-top: 20px;
+}
+
+.horoscope-box h2 {
+  color: #ffc9e0;
+  margin-bottom: 15px;
+}
+
+.horoscope-box h4 {
+  margin-top: 25px;
+  color: #ffe3ef;
+}
+
+.lucky-colors-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 15px;
+  gap: 10px;
 }
 
 .color-swatch {
   width: 50px;
   height: 50px;
-  margin: 0.25rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  display: inline-block;
+  border-radius: 5px;
+  border: 2px solid #fff;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
 }
 
-.text-pink {
-  color: #e75480; /* example pink color */
+.color-swatch:hover {
+  transform: scale(1.1);
 }
 
-/* Add any other styling you need for lucky colors container or text here */
-
-
-.lucky-colors-container {
-  gap: 12px;
-}
-
-/* Description styling, consistent with birthday.css */
-.description-column {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 12px;
-  max-width: 600px;
-  color: #ffe3ef;
-  font-size: 1.1rem;
-  line-height: 1.5;
-}
-
-/* Back button styles from birthday.css */
 .back-btn {
   margin-top: 30px;
+  display: inline-block;
   text-decoration: none;
+  padding: 12px 28px;
   background: linear-gradient(to right, #d638ff, #a03eff);
   color: white;
   font-weight: bold;
@@ -49,4 +81,13 @@
 
 .back-btn:hover {
   background: linear-gradient(to right, #a03eff, #d638ff);
+}
+
+.page-footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  color: #ffcaff;
+  font-size: 0.9rem;
+  background: transparent;
 }
