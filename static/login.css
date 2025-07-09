@@ -64,3 +64,11 @@ input:focus {
   box-shadow: 0 6px 18px rgba(255, 201, 224, 0.4);
 }
 
+.page-footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  color: #ffcaff;
+  font-size: 0.9rem;
+  background: transparent;
+}

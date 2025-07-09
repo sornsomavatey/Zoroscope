@@ -3,90 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <title>Zodiac Compatibility</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='birthday.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='predict.css') }}">
 </head>
 <body>
-  <div class="compatibility-container">
-    <h1 class="compatibility-title">🔗 Personality Matcher 💖</h1>
+    <div class="compatibility-container">
+      <h1 class="compatibility-title">🔗 Personality Matcher 💖</h1>
+      
+      <form id="compatibility-form">
+        <div class="zodiac-row">
+          <div class="zodiac-sign">
+            <label>Your Sign Zodiac</label>
+            <select name="sign1" id="sign1" required>
+              {% for sign in zodiacs %}
+                <option value="{{ sign }}" {% if sign == user_sign %}selected{% endif %}>{{ sign }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="zodiac-sign">
+            <label>Your Partner Zodiac Sign</label>
+            <select name="sign2" id="sign2" required>
+              {% for sign in zodiacs %}
+                <option value="{{ sign }}">{{ sign }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+        <button type="submit">Check Compatibility</button>
+      </form>
 
-    <form id="compatibility-form">
-      <div class="zodiac-row">
-        <div class="zodiac-sign">
-          <label>Your Sign Zodiac</label>
-          <select name="sign1" id="sign1" required>
-            {% for sign in zodiacs %}
-              <option value="{{ sign }}" {% if sign == user_sign %}selected{% endif %}>{{ sign }}</option>
-            {% endfor %}
-          </select>
+      <div class="result-box" id="result" >
+        <div class="signs-row">
+          <div id="sign1-name"></div>
+          <div class="compatibility-score" id="compatibility-score"></div>
+          <div id="sign2-name"></div>
         </div>
 
-        <div class="zodiac-sign">
-          <label>Your Partner Zodiac Sign</label>
-          <select name="sign2" id="sign2" required>
-            {% for sign in zodiacs %}
-              <option value="{{ sign }}">{{ sign }}</option>
-            {% endfor %}
-          </select>
-        </div>
-      </div>
-
-      <button type="submit">Check Compatibility</button>
-    </form>
-
-    <div class="result-box" id="result" style="display: none;">
-      <div class="signs-row">
-        <div class="sign-name" id="sign1-name"></div>
-        <div class="compatibility-score" id="compatibility-score"></div>
-        <div class="sign-name" id="sign2-name"></div>
-      </div>
-    
-      <div class="descriptions">
-        <div class="description-column">
-          <h3> Friendship</h3>
-          <p id="friend-description"></p>
-        </div>
-        <div class="description-column">
-          <h3> Relationship</h3>
-          <p id="couple-description"></p>
+        <div class="descriptions">
+          <div class="description-column">
+            <h3>Friendship</h3>
+            <p id="friend-description"></p>
+          </div>
+          <div class="description-column">
+            <h3>Relationship</h3>
+            <p id="couple-description"></p>
+          </div>
         </div>
       </div>
     </div>
-    
-    <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn">🔙 Back to Explore</a>
-  </div>
-    
-  <script>
-    const form = document.getElementById("compatibility-form");
-    const resultBox = document.getElementById("result");
 
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+    <div class="back-btn-container">
+      <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn">Back to Explore</a>
+    </div>
 
-      const sign1 = document.getElementById("sign1").value;
-      const sign2 = document.getElementById("sign2").value;
+    <footer class="page-footer">
+      <p>&copy; 2025 Zoroscope ✨ All rights reserved.</p>
+    </footer>
 
-      const response = await fetch("/predict", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sign1, sign2 }),
+    <script>
+      const form = document.getElementById("compatibility-form");
+      const resultBox = document.getElementById("result");
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const sign1 = document.getElementById("sign1").value;
+        const sign2 = document.getElementById("sign2").value;
+
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ sign1, sign2 }),
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          alert(data.error);
+          return;
+        }
+
+        document.getElementById("sign1-name").textContent = data.sign1;
+        document.getElementById("sign2-name").textContent = data.sign2;
+        document.getElementById("compatibility-score").textContent = `${data.compatibility_score}%`;
+        document.getElementById("friend-description").textContent = data.descriptions.Friends;
+        document.getElementById("couple-description").textContent = data.descriptions.Couple;
+        resultBox.classList.add("show");
       });
-
-      const data = await response.json();
-
-      if (data.error) {
-        alert(data.error);
-        return;
-      }
-
-        // Fill results
-      document.getElementById("sign1-name").textContent = data.sign1;
-      document.getElementById("sign2-name").textContent = data.sign2;
-      document.getElementById("compatibility-score").textContent = `${data.compatibility_score}%`;
-      document.getElementById("friend-description").textContent = data.descriptions.Friends;
-      document.getElementById("couple-description").textContent = data.descriptions.Couple;
-      resultBox.style.display = "block";
-    });
-  </script>
+    </script>
 </body>
-    
 </html>

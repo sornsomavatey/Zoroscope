@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Birthday Countdown</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='birthday.css') }}">
+</head>
+<body>
+    <div class="countdown-container">
+
+        <h1 class="countdown-title"> My Birthday Countdown </h1>
+        <div class="cake-emoji">🎂</div>
+        <p class="quote">“Another year older, wiser, and more fabulous!”</p>
+
+        <div id="countdown-box" class="countdown-box">
+            <p><strong>Next Birthday:</strong> <span id="birthday-date">Loading...</span></p>
+            <div class="time-boxes">
+                <div class="time-unit">
+                    <span id="days" class="num">0</span>
+                    <div class="label">Days</div>
+                </div>
+                <div class="time-unit">
+                    <span id="hours" class="num">0</span>
+                    <div class="label">Hours</div>
+                </div>
+                <div class="time-unit">
+                    <span id="minutes" class="num">0</span>
+                    <div class="label">Minutes</div>
+                </div>
+                <div class="time-unit">
+                    <span id="seconds" class="num">0</span>
+                    <div class="label">Seconds</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="back-btn-container">
+        <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn"> Back to Explore</a>
+    </div>
+    <footer class="page-footer">
+        <p>&copy; 2025 Zoroscope ✨ All rights reserved.</p>
+    </footer>
+
+    <script>
+        async function fetchCountdown() {
+        const response = await fetch("/countdown/{{ user_id }}");
+        const data = await response.json();
+
+        if (data.error) {
+            alert(data.error);
+            return;
+        }
+
+        document.getElementById("birthday-date").textContent = data.next_birthday;
+        document.getElementById("days").textContent = data.days;
+        document.getElementById("hours").textContent = data.hours;
+        document.getElementById("minutes").textContent = data.minutes;
+        document.getElementById("seconds").textContent = data.seconds;
+        }
+
+        fetchCountdown();
+        setInterval(fetchCountdown, 1000);
+    </script>
+</body>
+</html>

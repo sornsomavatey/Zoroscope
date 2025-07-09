@@ -1,34 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Daily Horoscope</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='daily.css') }}">
+    <meta charset="UTF-8">
+    <title>Daily Horoscope</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='daily.css') }}">
 </head>
 <body>
-  <div class="horoscope-container">
-    <h1 class="horoscope-title">✨ Your Daily Horoscope ✨</h1>
-    <p class="horoscope-subtitle">Choose your sign to reveal the stars' message...</p>
+    <div class="horoscope-container">
+      <h1 class="horoscope-title">✨ Your Daily Horoscope ✨</h1>
+      <p class="horoscope-subtitle">Choose your sign to reveal the stars' message...</p>
 
-    <form class="horoscope-form"  method="post" action="{{ url_for('daily_horoscope', user_id=user_id) }}">
-      <label for="sign">Choose your sign:</label>
-      <select name="sign" id="sign">
-        {% for s in zodiacs %}
-          <option value="{{ s }}" {% if s == selected_sign %}selected{% endif %}>{{ s }}</option>
-        {% endfor %}
-      </select>
-      <button type="submit">Show Horoscope</button>
-    </form>
+      <form class="horoscope-form"  method="post" action="{{ url_for('daily_horoscope', user_id=user_id) }}">
+        <label for="sign">Choose your sign:</label>
+        <select name="sign" id="sign">
+          {% for s in zodiacs %}
+            <option value="{{ s }}" {% if s == selected_sign %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+        <button type="submit">Show Horoscope</button>
+      </form>
 
-    <div class="horoscope-box">
-      {% if horoscope_text %}
-        <h2>{{ selected_sign }} - {{ today }}</h2>
-        <p>{{ horoscope_text }}</p>
-      {% else %}
-        <p class="placeholder">Your daily horoscope will appear here...</p>
-      {% endif %}
-  </div>  
-    <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn">🔙 Back to Explore</a>
-  </div>
+      <div class="horoscope-box">
+        {% if horoscope_text %}
+          <h2>{{ selected_sign }} - {{ today }}</h2>
+          <p>{{ horoscope_text }}</p>
+        {% else %}
+          <p class="placeholder">Your daily horoscope will appear here...</p>
+        {% endif %}
+    </div>  
+      <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn">🔙 Back to Explore</a>
+    </div>
+    <footer class="page-footer">
+        <p>&copy; 2025 Zoroscope ✨ All rights reserved.</p>
+    </footer>
 </body>
 </html>

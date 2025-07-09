@@ -45,3 +45,11 @@ body {
   background: #fff;
   color: #8b5c9c;
 }
+.page-footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  color: #ffcaff;
+  font-size: 0.9rem;
+  background: transparent;
+}

@@ -35,10 +35,13 @@
 
             <div class="card">
                 <img src="{{ url_for('static', filename='images/birthday countdown.jpeg') }}" alt="Birthday Countdown">
-                <a href="/birthday" class="btn">Birthday Countdown</a>
+                <a href="{{ url_for('birthday_page', user_id=user_id) }}" class="btn">Birthday Countdown</a>
             </div>
 
         </div>
-  </div>
+    </div>
+    <footer class="page-footer">
+        <p>&copy; 2025 Zoroscope ✨ All rights reserved.</p>
+    </footer>
 </body>
 </html>

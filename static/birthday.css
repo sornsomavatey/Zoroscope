@@ -1,0 +1,104 @@
+body {
+    background: linear-gradient(to bottom, #100022, #3a005a);
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.countdown-container {
+    max-width: 650px;
+    margin: 60px auto;
+    padding: 40px;
+    text-align: center;
+    background: rgba(32, 0, 61, 0.85);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(248, 164, 255, 0.4);
+}
+
+.countdown-title {
+    font-size: 2.5rem;
+    color: #ffc7fa;
+    text-shadow: 0 0 5px #ff55f7;
+    margin-bottom: 10px;
+}
+
+.cake-emoji {
+    font-size: 3rem;
+    margin-top: 10px;
+}
+
+.quote {
+    font-style: italic;
+    color: #ffcaff;
+    margin-bottom: 30px;
+}
+
+#countdown-box {
+    margin-top: 20px;
+}
+
+.time-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.time-unit {
+    background: #38025a;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(255, 102, 255, 0.4);
+    width: 100px;
+    text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.time-unit:hover {
+    transform: scale(1.05);
+}
+
+.num {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #ffccff;
+    text-shadow: 0 0 8px #e962ff;
+}
+
+.label {
+    margin-top: 8px;
+    font-size: 1rem;
+    color: #f8d6ff;
+}
+
+.back-btn {
+    margin-top: 30px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 28px;
+    background: linear-gradient(to right, #d638ff, #a03eff);
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(248, 126, 255, 0.4);
+    transition: background 0.3s ease;
+}
+.back-btn-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.back-btn:hover {
+    background: linear-gradient(to right, #a03eff, #d638ff);
+}
+.page-footer {
+  text-align: center;
+  padding: 20px;
+  margin-top: 40px;
+  color: #ffcaff;
+  font-size: 0.9rem;
+  background: transparent;
+}

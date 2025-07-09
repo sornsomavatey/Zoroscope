@@ -338,6 +338,11 @@ def lucky_color_page(username):
 
     return render_template("color.html", username=username, sign=sign, color=info["color"], description=info["desc"], image=info["image"])
 
+@app.route("/birthday/<user_id>")
+def birthday_page(user_id):
+    return render_template("birthday.html", user_id=user_id, username=db.get_user_by_id(user_id)["name"])
+
+
 if __name__ == '__main__':
     from os import environ
     app.run(host='0.0.0.0', port=int(environ.get('PORT', 5000)), debug=True)
