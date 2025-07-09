@@ -12,9 +12,9 @@
     <div class="container countdown-container p-4 my-5 rounded text-center text-white">
       <h1 class="countdown-title mb-3">✨ Lucky Colors for {{ username }} ✨</h1>
 
-      <div class="mb-4">
+      <!-- <div class="mb-4">
         <img src="{{ url_for('static', filename='images/' + image) }}" alt="{{ sign }} image" class="img-fluid rounded sign-image" />
-      </div>
+      </div> -->
 
       <h2 class="fw-bold text-pink mb-2">{{ sign }}</h2>
       <p class="mb-1"><strong>Ruling Planet:</strong> {{ ruling_planet }}</p>
@@ -29,10 +29,10 @@
         {% endfor %}
       </div>
 
-      <p class="description-column mx-auto">
+      <!-- <p class="description-column mx-auto">
         {{ description }}
       </p>
-    </div>
+    </div> -->
 
     <div class="back-btn-container text-center mb-4">
       <a href="{{ url_for('explore_page', user_id=user_id) }}" class="back-btn btn btn-gradient px-4 py-2 fw-bold">Back to Explore</a>

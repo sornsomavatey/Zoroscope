@@ -24,7 +24,7 @@
             
             <div class="card">
                 <img src="{{ url_for('static', filename='images/lucky color.jpeg') }}" alt="Color Suggestion">
-                <!--<a href="{{ url_for('lucky_colors', username=username) }}" class="btn">Color Suggestion</a>-->
+                <a href="{{ url_for('lucky_colors', user_id=user_id) }}" class="btn">Color Suggestion</a>
             </div>
 
             <div class="card">
@@ -35,7 +35,7 @@
 
             <div class="card">
                 <img src="{{ url_for('static', filename='images/birthday countdown.jpeg') }}" alt="Birthday Countdown">
-                <a href="{{ url_for('birthday_page', user_id=user_id) }}" class="btn">Birthday Countdown</a>
+                <a href="{{ url_for('countdown_page', user_id=user_id) }}" class="btn">Birthday Countdown</a>
             </div>
 
         </div>
