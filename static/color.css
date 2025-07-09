@@ -1,38 +1,52 @@
-.color-container {
-  max-width: 800px;
-  margin: auto;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  padding: 30px;
-  text-align: center;
+/* Lucky Colors page custom styles */
+
+.sign-image {
+  max-height: 200px;
 }
 
-.color-image {
-  max-width: 300px;
-  border-radius: 20px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+.color-swatch {
+  width: 50px;
+  height: 50px;
+  margin: 0.25rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  display: inline-block;
 }
 
-.color-title {
-  font-size: 2rem;
-  color: #ffc9e0;
-  margin-bottom: 10px;
+.text-pink {
+  color: #e75480; /* example pink color */
 }
 
-.color-desc {
+/* Add any other styling you need for lucky colors container or text here */
+
+
+.lucky-colors-container {
+  gap: 12px;
+}
+
+/* Description styling, consistent with birthday.css */
+.description-column {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+  max-width: 600px;
+  color: #ffe3ef;
   font-size: 1.1rem;
-  color: #fff;
-  margin-top: 20px;
+  line-height: 1.5;
 }
 
+/* Back button styles from birthday.css */
 .back-btn {
   margin-top: 30px;
-  display: inline-block;
   text-decoration: none;
-  color: #ffc9e0;
+  background: linear-gradient(to right, #d638ff, #a03eff);
+  color: white;
   font-weight: bold;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(248, 126, 255, 0.4);
+  transition: background 0.3s ease;
 }
 
 .back-btn:hover {
-  color: #fff;
+  background: linear-gradient(to right, #a03eff, #d638ff);
 }

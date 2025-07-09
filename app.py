@@ -314,7 +314,7 @@ def signs_compatibility():
         "compatibility_score": round_pred,
         "descriptions": descriptions
     })
-
+'''
 @app.route('/lucky-color/<username>')
 def lucky_color_page(username):
     user = db.get_user_by_name(username)
@@ -342,7 +342,7 @@ def lucky_color_page(username):
 def birthday_page(user_id):
     return render_template("birthday.html", user_id=user_id, username=db.get_user_by_id(user_id)["name"])
 
-
+'''
 if __name__ == '__main__':
     from os import environ
     app.run(host='0.0.0.0', port=int(environ.get('PORT', 5000)), debug=True)
