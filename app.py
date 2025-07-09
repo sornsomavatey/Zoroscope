@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, jsonify, redirect, url_for
 from db import *
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, date
 import pandas as pd
 from bson import ObjectId
 import requests
@@ -85,14 +85,19 @@ def login_page():
 
     return render_template('login.html')
 
-def get_user_zodiac(user_id):
-    """
-    Load user data and return (sign_name, sign_icon)
-    """
-    user = db.get_user_by_id(user_id)
+def get_user_birthdate(user_id):
 
-    birthday = datetime(user['year'], user['month'], user['date'])
-    sign, icon = get_zodiac_sign(birthday.month, birthday.day)
+    user = db.get_user_by_id(user_id)
+    birthdate = datetime(user['year'], user['month'], user['date'])
+    return birthdate
+
+def get_user_zodiac(user_id):
+
+    birthdate = get_user_birthdate(user_id)
+    month = birthdate.month
+    day = birthdate.day
+
+    sign, icon = get_zodiac_sign(month, day)
     return sign, icon
 
 
@@ -141,11 +146,9 @@ def daily_horoscope(user_id):
 
     elif request.method == "GET":
         # GET request, load user and get their zodiac sign
-        user = db.get_user_by_id(user_id)
-        if not user:
-            return f"User ID {user_id} not found.", 404
+        birthdate = get_user_birthdate(user_id)
+        sign_name, _ = get_zodiac_sign(birthdate.month, birthdate.day )  
 
-        sign_name, _ = get_zodiac_sign(user['month'], user['date'])  # unpack tuple
         sign = sign_name    
 
     zodiac_number = dic.get(sign)
@@ -193,7 +196,11 @@ def daily_horoscope(user_id):
         )
     
 
-def lucky_color_from_birthdate(birthdate):
+@app.route("/lucky_colors/<user_id>")
+def lucky_colors(user_id):
+
+    user = db.get_user_by_id(user_id)
+    birthdate = get_user_birthdate(user_id)
     month = birthdate.month
     day = birthdate.day
 
@@ -210,42 +217,25 @@ def lucky_color_from_birthdate(birthdate):
     all_colors = sign_colors * 3 + planet_colors * 2 + moon_colors
     unique_colors = list(dict.fromkeys(all_colors))
 
-    return {
-        "birthdate": birthdate.strftime("%Y-%m-%d"),
-        "sign": sign,
-        "ruling_planet": planet,
-        "moon_phase": moon_phase,
-        "lucky_colors": unique_colors
-    }
-
-@app.route("/lucky_colors", methods=["POST"])
-def lucky_colors():
-    data = request.get_json()
-    if not data or "user_id" not in data:
-        return jsonify({"error": "Missing user_id in request body."}), 400
-
-    user_id = data["user_id"]
-    user = db.get_user_by_id(user_id)
-
-    if not user:
-        return jsonify({"error": "User not found or invalid user ID."}), 404
-
-    if not all(u in user for u in ["year", "month", "date"]):
-        return jsonify({"error": "Date fields missing in user data."}), 400
-
-    birthdate = datetime(user["year"], user["month"], user["date"])
-    result = lucky_color_from_birthdate(birthdate)
-
-    return jsonify(result), 200
+    return render_template(
+        "color.html",   
+        username=user["name"],         
+        sign=sign,
+        ruling_planet=planet,
+        moon_phase=moon_phase,
+        lucky_color=unique_colors,
+        user_id=user_id
+        )
+    
 
     
 @app.route("/predict/<user_id>")
 def compatibility_page(user_id):
-    user = db.get_user_by_id(user_id)
-    if not user:
-        return redirect(url_for('login_page'))
+    birthdate = get_user_birthdate(user_id)
+    month = birthdate.month
+    day = birthdate.day
 
-    user_sign, _ = get_zodiac_sign(user["month"], user["date"])
+    user_sign, _ = get_zodiac_sign(month, day)  # unpack tuple
 
     Zodiac_option = [
         "Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo",
@@ -254,7 +244,6 @@ def compatibility_page(user_id):
 
     return render_template(
         "predict.html",
-        username=user["name"],
         user_id=user_id,
         user_sign=user_sign,
         zodiacs=Zodiac_option
@@ -313,36 +302,51 @@ def signs_compatibility():
         "sign2": sign2,
         "compatibility_score": round_pred,
         "descriptions": descriptions
+         
     })
-'''
-@app.route('/lucky-color/<username>')
-def lucky_color_page(username):
-    user = db.get_user_by_name(username)
-    if not user:
-        return redirect(url_for('login_page'))
 
-    sign, _ = get_zodiac_sign(user['month'], user['date'])
+@app.route("/countdown/<user_id>")
+def countdown_page(user_id):
 
-    color_data = {
-        "Aries": {"image": "aries.jpg", "color": "Red", "desc": "Red energizes Aries and boosts confidence."},
-        "Taurus": {"image": "taurus.jpg", "color": "Green", "desc": "Green brings Taurus calm and prosperity."},
-        "Gemini": {"image": "gemini.jpg", "color": "Yellow", "desc": "Yellow stimulates Gemini’s curiosity and joy."},
-        # Add more...
+    birthday= get_user_birthdate(user_id)
+
+    if not birthday:
+        return jsonify({"error": "User not found or birthday missing."}), 404
+    
+    if isinstance(birthday, datetime):
+        birthday = birthday.date()
+
+    today = date.today()
+
+    try:
+        next_birthday = birthday.replace(year=today.year)
+
+    except ValueError:
+        # For Feb 29 in non-leap year
+        next_birthday = birthday.replace(year=today.year, day=28)
+
+    if next_birthday < today:
+        try:
+            next_birthday = birthday.replace(year=today.year + 1)
+        except ValueError:
+            next_birthday = birthday.replace(year=today.year + 1, day=28)
+
+    now = datetime.now()
+    birthday_datetime = datetime.combine(next_birthday, datetime.min.time())
+    time_left = birthday_datetime - now
+
+    response = {
+        "next_birthday": next_birthday.strftime("%Y-%m-%d"),
+        "days": time_left.days,
+        "hours": time_left.seconds // 3600,
+        "minutes": (time_left.seconds % 3600) // 60,
+        "seconds": time_left.seconds % 60
     }
 
-    info = color_data.get(sign, {
-        "image": "default.jpg",
-        "color": "Unknown",
-        "desc": "No lucky color available."
-    })
+    return jsonify(response)
 
-    return render_template("color.html", username=username, sign=sign, color=info["color"], description=info["desc"], image=info["image"])
 
-@app.route("/birthday/<user_id>")
-def birthday_page(user_id):
-    return render_template("birthday.html", user_id=user_id, username=db.get_user_by_id(user_id)["name"])
 
-'''
 if __name__ == '__main__':
     from os import environ
     app.run(host='0.0.0.0', port=int(environ.get('PORT', 5000)), debug=True)
