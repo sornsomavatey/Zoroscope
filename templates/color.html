@@ -13,9 +13,9 @@
     <div class="horoscope-box">
       <h2>{{ sign }}</h2>
       <p><strong>Ruling Planet:</strong> {{ ruling_planet }}</p>
-      <p><strong>Moon Phase:</strong> {{ moon_phase }}</p>
+      <p><strong>Moon Phase on Your Birthdate:</strong> {{ moon_phase }}</p>
 
-      <h4>Your Lucky Colors</h4>
+      <h4>Colors That Align With Your Cosmic Energy: </h4>
       <div class="lucky-colors-container">
         {% for hex_color in lucky_color %}
           <div class="color-swatch" title="{{ hex_color }}" data-color="{{ hex_color }}"></div>
