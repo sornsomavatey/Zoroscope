@@ -323,7 +323,6 @@ def signs_compatibility():
 def countdown_page(user_id):
     return render_template("birthday.html", user_id=user_id)
 
-
 @app.route("/api/countdown/<user_id>")
 def countdown_api(user_id):
 
