@@ -1,11 +1,27 @@
 body {
-  background: linear-gradient(to right, #8b5c9c, #2e2e3f);
+  background: linear-gradient(to right, #5a0353, #1a1a31);
   font-family: 'Segoe UI', sans-serif;
   color: #fff;
   text-align: center;
   padding-top: 100px;
 }
-
+.navbar {
+  background-color: rgba(203, 144, 224, 0);
+}
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.8rem;
+  color: white;
+}
+.nav-link {
+  font-weight: 700;
+  font-size: 1rem;
+  color: white;
+}
+.nav-link:hover, .nav-link:focus {
+  color: #ff55f6;
+  text-shadow: 0 0 8px #ff55f6;
+}
 .greeting-container {
   background-color: rgba(112, 0, 172, 0.05);
   border: 3px solid rgba(255, 255, 255, 0.2);

@@ -231,13 +231,16 @@ def lucky_colors(user_id):
     all_colors = sign_colors * 3 + planet_colors * 2 + moon_colors
     unique_colors = list(dict.fromkeys(all_colors))
 
+    # Convert color names to hex codes, fallback to original if not found
+    hex_colors = [COLOR_HEX_MAP.get(color, color) for color in unique_colors]
+
     return render_template(
         "color.html",   
         username=user["name"],         
         sign=sign,
         ruling_planet=planet,
         moon_phase=moon_phase,
-        lucky_color=unique_colors,
+        lucky_color=hex_colors,
         user_id=user_id
         )
     

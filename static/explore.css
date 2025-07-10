@@ -63,6 +63,26 @@ body {
   background: #fff;
   color: #8b5c9c;
 }
+.back-container {
+    margin-top: 30px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 12px 28px;
+    background: linear-gradient(to right, #d638ff, #a03eff);
+    color: white;
+    font-weight: bold;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(248, 126, 255, 0.4);
+    transition: background 0.3s ease;
+}
+.back-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.back-container:hover {
+    background: linear-gradient(to right, #a03eff, #d638ff);
+}
 .page-footer {
   text-align: center;
   padding: 20px;

@@ -34,7 +34,7 @@ body {
   text-shadow: 0 0 8px #ff55f6;
 }
 .hero-banner {
-  background-image: url('images/Surreal.png'); /* your background image */
+  background-image: url("/static/images/Surreal.png"); /* your background image */
   background-size: cover;
   background-position: center;
   height: 80vh;

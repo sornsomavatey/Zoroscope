@@ -1,12 +1,11 @@
 body {
-  background: linear-gradient(to right, #8b5c9c, #2e2e3f);
+  background: linear-gradient(to right, #5a0353, #1a1a31);
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;
 }
-
 .container {
   padding: 3rem 1rem;
   max-width: 480px;

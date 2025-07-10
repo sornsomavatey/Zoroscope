@@ -1,5 +1,5 @@
 body {
-  background: linear-gradient(to right, #3f104c, #211348);
+  background: linear-gradient(to right, #5a0353, #1a1a31);
   font-family: 'Segoe UI', sans-serif;
   color: #fff;
   text-align: center;
@@ -64,18 +64,28 @@ body {
   font-style: italic;
 }
 
+/* Back Button */
+.back-btn-container {
+  text-align: center;
+}
+
 .back-btn {
-  display: inline-block;
   margin-top: 30px;
+  display: inline-block;
   text-decoration: none;
-  color: #ffc9e0;
+  padding: 12px 28px;
+  background: linear-gradient(to right, #d638ff, #a03eff);
+  color: white;
   font-weight: bold;
-  transition: 0.3s;
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgba(248, 126, 255, 0.4);
+  transition: background 0.3s ease;
 }
 
 .back-btn:hover {
-  color: #fff;
+  background: linear-gradient(to right, #a03eff, #d638ff);
 }
+
 .page-footer {
   text-align: center;
   padding: 20px;
